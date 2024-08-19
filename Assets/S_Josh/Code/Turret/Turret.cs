@@ -13,6 +13,7 @@ public class Turret : MonoBehaviour
     public ListMaterialtVariable Inventory;
     bool isAttacking = false;
     public Target CurrentTarget;
+    public GameObject BulletPrefab;
 
     private void Update() {
         if (!isAttacking && CurrentTarget != null)
@@ -95,7 +96,10 @@ public class Turret : MonoBehaviour
         }
 
         Debug.Log("Attacked");
-        CurrentTarget.TakeDamage(Damage);
+        GameObject bulletGO = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
+        Bullet bullet = bulletGO.GetComponent<Bullet>();
+        bullet.SetTarget(CurrentTarget.transform, Damage);
+        // CurrentTarget.TakeDamage(Damage);
         
         // Attack logic here
     }
