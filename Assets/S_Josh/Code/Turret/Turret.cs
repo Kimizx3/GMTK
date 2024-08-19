@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,8 +13,9 @@ public class Turret : MonoBehaviour
     public List<MaterialCostEntry> RequriedMaterials;
     public ListMaterialtVariable Inventory;
     bool isAttacking = false;
-    public Target CurrentTarget;
+    public List<Target> CurrentTarget;
     public GameObject BulletPrefab;
+    public int TargetCount = 1;
 
     private void Update() {
         if (!isAttacking && CurrentTarget != null)
@@ -89,18 +91,16 @@ public class Turret : MonoBehaviour
 
     void Attack()
     {
-        if (CurrentTarget == null)
+        foreach (Target target in CurrentTarget)
         {
-            Debug.LogWarning("Target is null, attack canceled.");
-            return;
+            if (target != null)
+            {
+                GameObject bulletGO = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
+                Bullet bullet = bulletGO.GetComponent<Bullet>();
+                bullet.SetTarget(target.transform, Damage);
+            }
         }
-
-        Debug.Log("Attacked");
-        GameObject bulletGO = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
-        Bullet bullet = bulletGO.GetComponent<Bullet>();
-        bullet.SetTarget(CurrentTarget.transform, Damage);
         // CurrentTarget.TakeDamage(Damage);
-        
         // Attack logic here
     }
 

@@ -13,7 +13,11 @@ public class SeatingManager : MonoBehaviour
     private void OnEnable() {
         unlockSeatEvent.OnEventRaised += UnlockSeat;
     }
-
+    private void OnDisable() {
+        lockedSeats.Clear();
+        unlockedSeats.baseSpaces.Clear();
+        unlockSeatEvent.OnEventRaised -= UnlockSeat;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -33,11 +37,7 @@ public class SeatingManager : MonoBehaviour
         }
     }
 
-    private void OnDisable() {
-        lockedSeats.Clear();
-        unlockedSeats.baseSpaces.Clear();
-        unlockSeatEvent.OnEventRaised -= UnlockSeat;
-    }
+    
 
     void UnlockSeat(BaseSpace seat)
     {

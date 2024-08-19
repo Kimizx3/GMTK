@@ -6,14 +6,26 @@ using UnityEngine.UI;
 public class MenuHolder : MonoBehaviour
 {
     [Header("Menu")]
-    public List<GameObject> menuOptionPrefab = new List<GameObject>(); // List of menu options prefabs   
+    public ListGameObjectVariable menuOptionPrefab; // List of menu options prefabs   
+    public VoidEventChannel RedrawMenuEvent; // Event to redraw the menu
     public Transform menuContainer; // Container for menu options
     public float radius = 100f; // Radius for menu option positioning
     public float animationDuration = 0.3f; // Duration of the menu animation
     private bool isMenuOpen = false; // Is the menu currently open?
     private List<GameObject> instantiatedOptions = new List<GameObject>(); // List to keep track of instantiated menu options
 
+    private void OnEnable() {
+        RedrawMenuEvent.OnEventRaised += RedrawMenu;
+    }
+    private void OnDisable() {
+        RedrawMenuEvent.OnEventRaised -= RedrawMenu;
+    }
     private void Start()
+    {
+        InitializeMenu();
+    }
+
+    public void RedrawMenu()
     {
         InitializeMenu();
     }
@@ -26,7 +38,7 @@ public class MenuHolder : MonoBehaviour
         }
 
         // Instantiate and store menu options in the container
-        foreach (GameObject prefab in menuOptionPrefab)
+        foreach (GameObject prefab in menuOptionPrefab.listGameObject)
         {
             GameObject option = Instantiate(prefab, menuContainer);
             option.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
