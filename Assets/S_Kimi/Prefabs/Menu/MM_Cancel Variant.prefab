@@ -100,46 +100,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5246685761575871997, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+      propertyPath: m_EffectDistance.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246685761575871997, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+      propertyPath: m_EffectDistance.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DestroyTower
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuHolder, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3733054185549245556, guid: 111609227815d564daa2cc3d3770e400, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1872472968304227057}
-    - targetCorrespondingSourceObject: {fileID: 3733054185549245556, guid: 111609227815d564daa2cc3d3770e400, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3350277743051232407}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 111609227815d564daa2cc3d3770e400, type: 3}
---- !u!1 &7340578754213934205 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3733054185549245556, guid: 111609227815d564daa2cc3d3770e400, type: 3}
-  m_PrefabInstance: {fileID: 6201597961017874441}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1872472968304227057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340578754213934205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55309276169f8f4590e82847008b4b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3350277743051232407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340578754213934205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 0.6811324, b: 0, a: 1}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1

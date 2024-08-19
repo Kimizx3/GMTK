@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PlacementOutline : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class Outliner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     // Hover-over effect
     private Outline outlineComponent;
