@@ -490,6 +490,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1726240983}
     - target: {fileID: 1414168365041732646, guid: dcea9fab740212f4484a6fd91bfac58b, type: 3}
+      propertyPath: RedrawMenuEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: e58d002b637734e32843463b1166e4c8, type: 2}
+    - target: {fileID: 1414168365041732646, guid: dcea9fab740212f4484a6fd91bfac58b, type: 3}
+      propertyPath: menuOptionPrefab
+      value: 
+      objectReference: {fileID: 11400000, guid: 3977fd1befe0c4c1ea9f2f57bc896ad5, type: 2}
+    - target: {fileID: 1414168365041732646, guid: dcea9fab740212f4484a6fd91bfac58b, type: 3}
       propertyPath: towerPrefab.Array.data[0]
       value: 
       objectReference: {fileID: 1051899032541176265, guid: e8482deaa6c755d478d1f1978b57006a, type: 3}
@@ -2631,6 +2639,14 @@ PrefabInstance:
       propertyPath: parentRoot
       value: 
       objectReference: {fileID: 1401158388}
+    - target: {fileID: 1414168365041732646, guid: dcea9fab740212f4484a6fd91bfac58b, type: 3}
+      propertyPath: RedrawMenuEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: e58d002b637734e32843463b1166e4c8, type: 2}
+    - target: {fileID: 1414168365041732646, guid: dcea9fab740212f4484a6fd91bfac58b, type: 3}
+      propertyPath: menuOptionPrefab
+      value: 
+      objectReference: {fileID: 11400000, guid: 3977fd1befe0c4c1ea9f2f57bc896ad5, type: 2}
     - target: {fileID: 1414168365041732646, guid: dcea9fab740212f4484a6fd91bfac58b, type: 3}
       propertyPath: towerPrefab.Array.data[0]
       value: 

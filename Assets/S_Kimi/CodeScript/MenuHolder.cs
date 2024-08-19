@@ -14,6 +14,10 @@ public class MenuHolder : MonoBehaviour
     private bool isMenuOpen = false; // Is the menu currently open?
     private List<GameObject> instantiatedOptions = new List<GameObject>(); // List to keep track of instantiated menu options
 
+    [Header("Purchase")] 
+    public Button purchaseButton;
+    
+    
     private void OnEnable() {
         RedrawMenuEvent.OnEventRaised += RedrawMenu;
     }
