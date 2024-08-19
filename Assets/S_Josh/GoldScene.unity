@@ -1111,6 +1111,7 @@ MonoBehaviour:
   - {fileID: 1232363898}
   - {fileID: 2077746569}
   unlockedSeats: {fileID: 11400000, guid: 26d32115200088a418a09bae367c0e1c, type: 2}
+  unlockSeatEvent: {fileID: 0}
 --- !u!4 &2118230647
 Transform:
   m_ObjectHideFlags: 0
