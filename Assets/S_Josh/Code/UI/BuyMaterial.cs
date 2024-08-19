@@ -14,7 +14,7 @@ public class BuyMaterial : MonoBehaviour
     private void Start() {
         BuyButton = GetComponent<Button>();
         BuyButton.onClick.AddListener(Buy);
-        BuyButton.GetComponentInChildren<TMPro.TMP_Text>().text = $"{material.Cost} $";
+        BuyButton.GetComponentInChildren<TMPro.TMP_Text>().text = $"{material.Cost} $-";
     }
 
     void Buy()
