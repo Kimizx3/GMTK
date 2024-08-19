@@ -1,27 +1,19 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuHolder : MonoBehaviour
 {
-    [Header("PlaceTurret")]
-    public GameObject[] towerPrefab;
-    public Transform parentRoot;
-    private GameObject currentTower;
-    private bool isOccupied;
-    
     [Header("Menu")]
-    public GameObject menuOptionPrefab;
-    public Transform menuContainer;
-    public float radius = 100f;
-    public float animationDuration = 0.3f;
+    public GameObject[] menuOptionPrefab; // List of menu options
+    public Transform menuContainer; // Container for menu options
+    public float radius = 100f; // Radius for menu option positioning
+    public float animationDuration = 0.3f; 
     private bool isMenuOpen = false;
-    
 
-    
     private void Start()
     {
-        isOccupied = false;
         InitializeMenu();
     }
 
@@ -32,11 +24,10 @@ public class MenuHolder : MonoBehaviour
             return;
         }
         
-        for (int i = 0; i < menuContainer.childCount; i++)
+        // Initially set all menu options inactive
+        for (int i = 0; i < menuOptionPrefab.Length; i++)
         {
-            Transform option = menuContainer.GetChild(i);
-            option.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-            option.gameObject.SetActive(false);
+            menuOptionPrefab[i].SetActive(false);
         }
     }
 
@@ -55,21 +46,28 @@ public class MenuHolder : MonoBehaviour
     private IEnumerator OpenMenu()
     {
         isMenuOpen = true;
-        int optionCount = menuContainer.childCount;
-        float angleStep = 90f / optionCount;
+        int purchasedCount = 0;
+        
+        if (purchasedCount == 0) yield break;
 
-        for (int i = 0; i < optionCount; i++)
+        float angleStep = 90f / purchasedCount;
+        int displayIndex = 0;
+
+        for (int i = 0; i < menuOptionPrefab.Length; i++)
         {
-            Transform option = menuContainer.GetChild(i);
-            float angle = -30f + i * angleStep;
-            float angleRad = angle * Mathf.Deg2Rad;
+            
+                Transform option = menuOptionPrefab[i].transform;
+                float angle = -30f + displayIndex * angleStep;
+                float angleRad = angle * Mathf.Deg2Rad;
 
-            Vector2 targetPosition = new Vector2(
-                Mathf.Cos(angleRad),
-                Mathf.Sin(angleRad)) * radius;
-            StartCoroutine(SmoothMove(
-                option.GetComponent<RectTransform>(), targetPosition));
-            option.gameObject.SetActive(true);
+                Vector2 targetPosition = new Vector2(
+                    Mathf.Cos(angleRad),
+                    Mathf.Sin(angleRad)) * radius;
+
+                StartCoroutine(SmoothMove(option.GetComponent<RectTransform>(), targetPosition));
+                option.gameObject.SetActive(true);
+                displayIndex++;
+            
         }
 
         yield return null;
@@ -90,6 +88,7 @@ public class MenuHolder : MonoBehaviour
         }
 
         yield return new WaitForSeconds(animationDuration);
+
         foreach (Transform option in menuContainer)
         {
             option.gameObject.SetActive(false);
@@ -110,36 +109,6 @@ public class MenuHolder : MonoBehaviour
 
         rectTransform.anchoredPosition = targetPosition;
     }
-
-    public void AddMenuOption()
-    {
-        GameObject newOption = Instantiate(menuOptionPrefab, menuContainer);
-        newOption.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        newOption.gameObject.SetActive(false);
-        StartCoroutine(OpenMenu()); // Ensure the menu is repositioned if needed
-    }
-    
-    public void PlaceTower(int index)
-    {
-        if (isOccupied)
-        {
-            return;
-        }
-        
-        currentTower = Instantiate(towerPrefab[index], parentRoot.transform, false);
-        currentTower.SetActive(true);
-        isOccupied = true;
-        
-        StartCoroutine(CloseMenu());
-    }
-
-    public void DestroyTower()
-    {
-        if (currentTower != null)
-        {
-            Destroy(currentTower);
-            currentTower = null;
-            isOccupied = false;
-        }
-    }
 }
+
+
