@@ -6,11 +6,12 @@ using UnityEngine.UI;
 public class MenuHolder : MonoBehaviour
 {
     [Header("Menu")]
-    public GameObject[] menuOptionPrefab; // List of menu options
+    public List<GameObject> menuOptionPrefab = new List<GameObject>(); // List of menu options prefabs   
     public Transform menuContainer; // Container for menu options
     public float radius = 100f; // Radius for menu option positioning
-    public float animationDuration = 0.3f; 
-    private bool isMenuOpen = false;
+    public float animationDuration = 0.3f; // Duration of the menu animation
+    private bool isMenuOpen = false; // Is the menu currently open?
+    private List<GameObject> instantiatedOptions = new List<GameObject>(); // List to keep track of instantiated menu options
 
     private void Start()
     {
@@ -23,11 +24,14 @@ public class MenuHolder : MonoBehaviour
         {
             return;
         }
-        
-        // Initially set all menu options inactive
-        for (int i = 0; i < menuOptionPrefab.Length; i++)
+
+        // Instantiate and store menu options in the container
+        foreach (GameObject prefab in menuOptionPrefab)
         {
-            menuOptionPrefab[i].SetActive(false);
+            GameObject option = Instantiate(prefab, menuContainer);
+            option.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            option.SetActive(false);
+            instantiatedOptions.Add(option); // Store the instantiated option
         }
     }
 
@@ -46,28 +50,20 @@ public class MenuHolder : MonoBehaviour
     private IEnumerator OpenMenu()
     {
         isMenuOpen = true;
-        int purchasedCount = 0;
-        
-        if (purchasedCount == 0) yield break;
+        int optionCount = instantiatedOptions.Count;
+        float angleStep = 90f / optionCount;
 
-        float angleStep = 90f / purchasedCount;
-        int displayIndex = 0;
-
-        for (int i = 0; i < menuOptionPrefab.Length; i++)
+        for (int i = 0; i < optionCount; i++)
         {
-            
-                Transform option = menuOptionPrefab[i].transform;
-                float angle = -30f + displayIndex * angleStep;
-                float angleRad = angle * Mathf.Deg2Rad;
+            Transform option = instantiatedOptions[i].transform;
+            float angle = -30f + i * angleStep;
+            float angleRad = angle * Mathf.Deg2Rad;
 
-                Vector2 targetPosition = new Vector2(
-                    Mathf.Cos(angleRad),
-                    Mathf.Sin(angleRad)) * radius;
-
-                StartCoroutine(SmoothMove(option.GetComponent<RectTransform>(), targetPosition));
-                option.gameObject.SetActive(true);
-                displayIndex++;
-            
+            Vector2 targetPosition = new Vector2(
+                Mathf.Cos(angleRad),
+                Mathf.Sin(angleRad)) * radius;
+            StartCoroutine(SmoothMove(option.GetComponent<RectTransform>(), targetPosition));
+            option.gameObject.SetActive(true);
         }
 
         yield return null;
@@ -82,16 +78,16 @@ public class MenuHolder : MonoBehaviour
         
         isMenuOpen = false;
 
-        foreach (Transform option in menuContainer)
+        foreach (GameObject option in instantiatedOptions)
         {
             StartCoroutine(SmoothMove(option.GetComponent<RectTransform>(), Vector2.zero));
         }
 
         yield return new WaitForSeconds(animationDuration);
 
-        foreach (Transform option in menuContainer)
+        foreach (GameObject option in instantiatedOptions)
         {
-            option.gameObject.SetActive(false);
+            option.SetActive(false);
         }
     }
 
@@ -110,5 +106,7 @@ public class MenuHolder : MonoBehaviour
         rectTransform.anchoredPosition = targetPosition;
     }
 }
+
+
 
 
