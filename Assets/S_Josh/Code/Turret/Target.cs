@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Target : MonoBehaviour
 {
@@ -7,9 +8,25 @@ public class Target : MonoBehaviour
     public int health = 100;
     public float shakeDuration = 0.1f; // Duration of the shake
     public float shakeMagnitude = 0.1f; // Magnitude of the shake
+    public IntVariable PlayerHealth;
+    public int damage = 5; 
+    public float timeToFill = 10f; // Time it takes to fill the progress bar
+    public Slider progressBar; // Reference to the UI Slider component for the progress bar
+    private Coroutine loadProgressCoroutine;
+    private bool isLoading = false;
+
     Vector3 originalPosition;
     private void Start() {
         originalPosition = transform.localPosition;
+        StartLoading();
+    }
+
+    private void StartLoading()
+    {
+        if (!isLoading)
+        {
+            loadProgressCoroutine = StartCoroutine(LoadProgressBar());
+        }
     }
 
     public void TakeDamage(int damage)
@@ -51,5 +68,35 @@ public class Target : MonoBehaviour
         }
 
         transform.localPosition = originalPosition; // Reset to the original position
+    }
+
+    private IEnumerator LoadProgressBar()
+    {
+        isLoading = true;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < timeToFill)
+        {
+            // If the target is destroyed during this time, exit the coroutine early
+            if (this == null)
+            {
+                yield break;
+            }
+
+            elapsedTime += Time.deltaTime;
+            progressBar.value = Mathf.Clamp01(elapsedTime / timeToFill);
+            yield return null;
+        }
+
+        OnProgressBarFull();
+    }
+
+    private void OnProgressBarFull()
+    {
+        // Reduce player health when the progress bar is full
+        PlayerHealth.Value -= damage;
+
+        // Handle target's death
+        Die();
     }
 }

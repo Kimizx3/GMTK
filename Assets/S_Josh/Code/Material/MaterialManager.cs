@@ -5,6 +5,7 @@ using UnityEngine;
 public class MaterialManager : MonoBehaviour
 {
     public ListMaterialtVariable materialList;
+    public IntVariable Money;
     public GameObject materialPrefab;
     List<GameObject> materialObjects;
 
@@ -13,6 +14,8 @@ public class MaterialManager : MonoBehaviour
         foreach (RawMaterial material in materialList.materialCostEntries) {
             GameObject materialObject = Instantiate(materialPrefab, materialPrefab.transform.parent);
             materialObject.GetComponentInChildren<RawMaterialToText>().materialVariable = material;
+            materialObject.GetComponentInChildren<BuyMaterial>().material = material;
+            materialObject.GetComponentInChildren<BuyMaterial>().Money = Money;
             materialObject.SetActive(true);
             materialObjects.Add(materialObject);
         }

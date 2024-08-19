@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26a3ef7cbb304054eac9c5db89e2a8ac, type: 3}
-  m_Name: Water
+  m_Script: {fileID: 11500000, guid: b7130264ece7a824cb3c28dc9faf7097, type: 3}
+  m_Name: Health
   m_EditorClassIdentifier: 
-  MaterialType: 0
-  AmountLeft: 332
-  Cost: 3
-  Name: Water
+  DeveloperDescription: Int for each UI
+  Value: 100
+  MaxValue: 0
+  IsLimit: 0
