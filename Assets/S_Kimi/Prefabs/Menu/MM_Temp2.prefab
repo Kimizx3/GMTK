@@ -176,4 +176,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PurchaseButton: {fileID: 2096360755639892236}
   CancelButton: {fileID: 763061007005730538, guid: 96b03dd432a20dc4dad0dd7ba91126cd, type: 3}
-  relatedItem: {fileID: 0}
+  relatedItem: {fileID: 583128362518681702, guid: 44810a126a594f643839e80d923fcfac, type: 3}

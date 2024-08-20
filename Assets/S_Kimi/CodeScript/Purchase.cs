@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Purchase : MonoBehaviour
 {
+    MenuHolder menuHolder;
     public Button PurchaseButton;
     public Button CancelButton;
     public GameObject relatedItem;

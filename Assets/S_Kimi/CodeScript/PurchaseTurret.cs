@@ -1,10 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PurchaseTurret : MonoBehaviour
 {
-    public Button PurchaseButton; // Corrected the typo in the variable name
-    public GameObject[] relatedItems; // Updated to plural to indicate multiple items
+    MenuHolder menuHolder; // Reference to the MenuHolder script
+    public Button PurchaseButton; // Button to trigger the purchase
+    public GameObject[] relatedItems; // Related items that will be activated upon purchase
+    public int[] optionIndices;
 
     private bool isPurchased = false;
 
@@ -25,7 +28,7 @@ public class PurchaseTurret : MonoBehaviour
             }
         }
     }
-
+    
     private void PurchaseItem()
     {
         // Check if the item has already been purchased
@@ -48,7 +51,21 @@ public class PurchaseTurret : MonoBehaviour
                     }
                 }
             }
+
+            // Add each prefab in myNewPrefab array to the menu
+            if (menuHolder != null && optionIndices != null)
+            {
+                foreach (int index in optionIndices)
+                {
+                    menuHolder.ActivateMenuOption(index);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("MenuHolder or myNewPrefab array is null.");
+            }
         }
     }
 }
+
 

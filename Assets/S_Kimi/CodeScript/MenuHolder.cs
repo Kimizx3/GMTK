@@ -5,34 +5,17 @@ using UnityEngine.UI;
 
 public class MenuHolder : MonoBehaviour
 {
-    [Header("Menu")]
-    //public ListGameObjectVariable menuOptionPrefab; // List of menu options prefabs   
-    //public VoidEventChannel RedrawMenuEvent; // Event to redraw the menu
-    public Transform menuContainer; // Container for menu options
+    [Header("Menu")] public Transform menuContainer; // Container for menu options
     public float radius = 100f; // Radius for menu option positioning
     public float animationDuration = 0.3f; // Duration of the menu animation
     private bool isMenuOpen = false; // Is the menu currently open?
-    private List<GameObject> instantiatedOptions = new List<GameObject>(); // List to keep track of instantiated menu options
-    public List<GameObject> menuOptionPrefab;
-    
-    
-    
-    // private void OnEnable() {
-    //     RedrawMenuEvent.OnEventRaised += RedrawMenu;
-    // }
-    // private void OnDisable() {
-    //     RedrawMenuEvent.OnEventRaised -= RedrawMenu;
-    // }
-    private void Start()
-    {
-        InitializeMenu();
-        // SetMenuOptionActive(0,true);
-        // SetMenuOptionActive(1,true);
-        // SetMenuOptionActive(2,false);
-        // SetMenuOptionActive(3,false);
-    }
 
-    public void RedrawMenu()
+    private List<GameObject>
+        instantiatedOptions = new List<GameObject>(); // List to keep track of instantiated menu options
+
+    public List<GameObject> menuOptionPrefab; // List of menu option prefabs
+
+    private void Start()
     {
         InitializeMenu();
     }
@@ -43,6 +26,14 @@ public class MenuHolder : MonoBehaviour
         {
             return;
         }
+
+        // Clear existing instantiated options
+        foreach (var option in instantiatedOptions)
+        {
+            Destroy(option);
+        }
+
+        instantiatedOptions.Clear();
 
         // Instantiate and store menu options in the container
         foreach (GameObject prefab in menuOptionPrefab)
@@ -81,7 +72,8 @@ public class MenuHolder : MonoBehaviour
             Vector2 targetPosition = new Vector2(
                 Mathf.Cos(angleRad),
                 Mathf.Sin(angleRad)) * radius;
-            StartCoroutine(SmoothMove(option.GetComponent<RectTransform>(), targetPosition));
+            StartCoroutine(SmoothMove(
+                option.GetComponent<RectTransform>(), targetPosition));
             option.gameObject.SetActive(true);
         }
 
@@ -94,12 +86,13 @@ public class MenuHolder : MonoBehaviour
         {
             yield break;
         }
-        
+
         isMenuOpen = false;
 
         foreach (GameObject option in instantiatedOptions)
         {
-            StartCoroutine(SmoothMove(option.GetComponent<RectTransform>(), Vector2.zero));
+            StartCoroutine(SmoothMove(
+                option.GetComponent<RectTransform>(), Vector2.zero));
         }
 
         yield return new WaitForSeconds(animationDuration);
@@ -117,26 +110,64 @@ public class MenuHolder : MonoBehaviour
 
         while (elapsedTime < animationDuration)
         {
-            rectTransform.anchoredPosition = Vector2.Lerp(startPosition, targetPosition, elapsedTime / animationDuration);
+            rectTransform.anchoredPosition = Vector2.Lerp(
+                startPosition,
+                targetPosition,
+                elapsedTime / animationDuration
+            );
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         rectTransform.anchoredPosition = targetPosition;
     }
-    
-    public void SetMenuOptionActive(int index, bool isActive)
+
+    public void ActivateMenuOption(int optionIndex)
     {
-        if (index >= 0 && index < instantiatedOptions.Count)
+        if (optionIndex >= 0 && optionIndex < instantiatedOptions.Count)
         {
-            instantiatedOptions[index].SetActive(isActive);
+            GameObject option = instantiatedOptions[optionIndex];
+            option.SetActive(true);
+
+            // Animate the option to its position
+            StartCoroutine(AnimateNewOption(option));
         }
         else
         {
-            Debug.LogWarning("Invalid index provided for menu option.");
+            Debug.LogWarning("Invalid option index.");
+        }
+    }
+
+    private IEnumerator AnimateNewOption(GameObject newOption)
+    {
+        int optionCount = instantiatedOptions.Count;
+        float angleStep = 90f / optionCount;
+        int index = instantiatedOptions.IndexOf(newOption);
+        float angle = -30f + index * angleStep;
+        float angleRad = angle * Mathf.Deg2Rad;
+
+        Vector2 targetPosition = new Vector2(
+            Mathf.Cos(angleRad),
+            Mathf.Sin(angleRad)) * radius;
+
+        newOption.SetActive(true); // Activate the option before animating
+        yield return SmoothMove(newOption.GetComponent<RectTransform>(), targetPosition);
+    }
+
+    public void DeactivateMenuOption(int optionIndex)
+    {
+        if (optionIndex >= 0 && optionIndex < instantiatedOptions.Count)
+        {
+            GameObject option = instantiatedOptions[optionIndex];
+            option.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid option index.");
         }
     }
 }
+
 
 
 
