@@ -7,6 +7,7 @@ public class OrderingSpace : BaseSpace
     public OrderMachine orderMachine;
     public UnlockSeatEvent unlockSeatEvent;
     public VoidEventChannel startOrderEvent;
+    public Target CurrentTarget;
     private void Start() {
         if(IsUnlocked)
         {
@@ -22,13 +23,13 @@ public class OrderingSpace : BaseSpace
     }
     protected override void ShowContent()
     {
-        Debug.Log("Showing ordering menu");
+        //Debug.Log("Showing ordering menu");
     }
 
     override public void Buy()
     {
         base.Buy();
-        Debug.Log("Ordering bought and should appear only once");
+        //Debug.Log("Ordering bought and should appear only once");
         orderMachine.IsAvailable = true;
         orderMachine.gameObject.SetActive(true);
         unlockSeatEvent.RaiseEvent(this);

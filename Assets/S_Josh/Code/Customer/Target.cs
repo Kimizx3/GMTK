@@ -23,6 +23,8 @@ public class Target : MonoBehaviour
     public bool StartToGetMad = false;
     public GameObject Health;
 
+    public VoidEventChannel CustomerLeft; 
+
     public Vector3 originalPosition;
     private void Start() {
         StartToGetMad = false;
@@ -64,9 +66,10 @@ public class Target : MonoBehaviour
     private void Die()
     {
         // Handle target's death (e.g., play an animation, remove from the scene)
-        Debug.Log(gameObject.name + " has died.");
+        //Debug.Log(gameObject.name + " has died.");
         SeatedTargets.listGameObject.Remove(gameObject);
         OnDeathEvent.RaiseEvent(); 
+        CustomerLeft.RaiseEvent();
         CurrentSeat.currentTarget = null;
         StartOrderEvent.RaiseEvent();
         Destroy(gameObject);

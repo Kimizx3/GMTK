@@ -25,19 +25,19 @@ public abstract class BaseSpace : MonoBehaviour
         {
             if(TotalMoney.Value >= BuyEvent.Cost)
             {
-                Debug.Log("Space is locked, showing confirm menu");
+                //Debug.Log("Space is locked, showing confirm menu");
                 ConfirmBuyEvent.RaiseEvent(BuyEvent);
             }
             else
             {
-                Debug.Log("Not enough money to unlock the space");
+                //Debug.Log("Not enough money to unlock the space");
             }
         }
     }
 
     public virtual void Buy()
     {
-        Debug.Log("Space is unlocked");
+        //Debug.Log("Space is unlocked");
         TotalMoney.Value -= BuyEvent.Cost;
         IsUnlocked = true;
        

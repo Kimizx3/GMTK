@@ -38,7 +38,7 @@ public class TurretManager : MonoBehaviour
         foreach (Turret turret in turrets)
         {
             turret.CurrentTarget.Clear();
-            Debug.Log("Turret Target Count: " + turret.CurrentTarget.Count);
+            //Debug.Log("Turret Target Count: " + turret.CurrentTarget.Count);
             for(int i = 0; i < turret.TargetCount; i++)
             {
                 if(i <= targets.listGameObject.Count - 1)

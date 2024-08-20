@@ -80,7 +80,7 @@ public class Turret : MonoBehaviour
         {
             if (CurrentTarget == null) // Target might have been destroyed
             {
-                Debug.Log("Target destroyed before attack could be completed.");
+                //Debug.Log("Target destroyed before attack could be completed.");
                 progressBar.gameObject.SetActive(false);
                 isAttacking = false;
                 yield break; // Stop the coroutine

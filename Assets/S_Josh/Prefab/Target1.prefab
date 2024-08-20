@@ -250,7 +250,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.64779866, g: 0.36871552, b: 0.36871552, a: 1}
   m_FlipX: 0
@@ -289,6 +289,7 @@ MonoBehaviour:
   MoneyValue: 50
   StartToGetMad: 0
   Health: {fileID: 1194801428498922141}
+  CustomerLeft: {fileID: 11400000, guid: 8a42eae06b9f88741990858b4bceebbd, type: 2}
   originalPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2170660531353727326
 GameObject:

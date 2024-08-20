@@ -44,7 +44,7 @@ public class SeatingManager : MonoBehaviour
     {
         if(seat is SeatSpace)
         {
-            Debug.Log("Unlocking seat" + seat.name);
+            //Debug.Log("Unlocking seat" + seat.name);
             SeatSpace seatSpace = (SeatSpace)seat;
             if(lockedSeats.Contains(seatSpace))
             {
@@ -58,7 +58,7 @@ public class SeatingManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Seat is not a SeatSpace");
+            //Debug.Log("Seat is not a SeatSpace");
         }
        
     }

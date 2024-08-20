@@ -15,29 +15,40 @@ public class CustomerManager : MonoBehaviour
      public IntVariable AllMoney;
      Target currentTarget;
 
+     public VoidEventChannel OnDeathEvent;
+
+     int currentCustomerCounted = 0;
+
     private void OnEnable() {
         SeatedTargets.listGameObject.Clear();
+        OnDeathEvent.OnEventRaised += OnTargetDeath;
         StartOrderEvent.OnEventRaised += StartOrder;
     }
 
     private void OnDisable() {
         SeatedTargets.listGameObject.Clear();
+        OnDeathEvent.OnEventRaised -= OnTargetDeath;
         StartOrderEvent.OnEventRaised -= StartOrder;
     }
     private void Start() {
         if(AllTargets.Count == 0)
         {
-            Debug.Log("No targets available");
+            //Debug.Log("No targets available");
             return;
         }
         currentTarget = AllTargets[0].GetComponent<Target>();
         StartOrder();
     }
+    public void OnTargetDeath()
+    {
+        Debug.Log("Target died");
+        currentCustomerCounted -= 1;
+    }
 
 
     public void StartOrder()
     {
-        if(!CheckSeatAvailability() || unlockedSeats.baseSpaces.Count == 0 || currentTarget == null || !CheckOrderAvailability() || UnlockedOrderSpaces.baseSpaces.Count == 0)
+        if(!CheckSeatAvailability() || unlockedSeats.baseSpaces.Count == 0 || currentTarget == null || !CheckOrderAvailability() || UnlockedOrderSpaces.baseSpaces.Count == 0 || currentCustomerCounted >= unlockedSeats.baseSpaces.Count)
         {
             Debug.Log("No seats available");
             return;
@@ -47,9 +58,9 @@ public class CustomerManager : MonoBehaviour
             Debug.Log("Finished all orders");
             return;
         }
-        currentTarget = AllTargets[0].GetComponent<Target>();
+        
         FinishOrder();
-
+        currentCustomerCounted++;
     }
 
 
@@ -70,11 +81,13 @@ public class CustomerManager : MonoBehaviour
                 {
                     if(orderingSpace.GetComponentInChildren<OrderMachine>().IsAvailable)
                     {
+                        currentTarget = AllTargets[0].GetComponent<Target>();
                         OrderMachine _orderMachine = orderingSpace.GetComponentInChildren<OrderMachine>();
                         _orderMachine.IsAvailable = false;
                         currentTarget.StartToGetMad = true;
                         MoveToSeat(orderingSpace, currentTarget);
-                        StartCoroutine(LoadProgressBar(_orderMachine.timeToOrderMultiplier * currentTarget.TimeToOrder, _orderMachine.progressBar, _orderMachine));
+                        StartCoroutine(LoadProgressBar(_orderMachine.timeToOrderMultiplier * currentTarget.TimeToOrder, _orderMachine.progressBar, _orderMachine, currentTarget));
+                        AllTargets.Remove(currentTarget);
                         return;
                     }
                 }
@@ -89,7 +102,7 @@ public class CustomerManager : MonoBehaviour
 
 
 
-    public void AssignSeat()
+    public void AssignSeat(Target CurrentOrderTarget)
     {
         foreach(BaseSpace baseSpace in unlockedSeats.baseSpaces)
         {
@@ -100,13 +113,13 @@ public class CustomerManager : MonoBehaviour
                 {
                     if(seatSpace.currentTarget == null)
                     {
-                        seatSpace.currentTarget = currentTarget;
-                        currentTarget.CurrentSeat = seatSpace;
-                        SeatedTargets.listGameObject.Add(currentTarget.gameObject);
-                        MoveToSeat(seatSpace, currentTarget);
-                        currentTarget.originalPosition = currentTarget.transform.localPosition;
+                        seatSpace.currentTarget = CurrentOrderTarget;
+                        CurrentOrderTarget.CurrentSeat = seatSpace;
+                        SeatedTargets.listGameObject.Add(CurrentOrderTarget.gameObject);
+                        MoveToSeat(seatSpace, CurrentOrderTarget);
+                        CurrentOrderTarget.originalPosition = CurrentOrderTarget.transform.localPosition;
                         UpdateTarget.RaiseEvent();
-                        AllTargets.Remove(currentTarget);
+                        
                         
                         StartOrder();
                         return;
@@ -160,9 +173,9 @@ public class CustomerManager : MonoBehaviour
     }
 
 
-    private IEnumerator LoadProgressBar(float timeToFill, Slider progressBar, OrderMachine orderMachine)
+    private IEnumerator LoadProgressBar(float timeToFill, Slider progressBar, OrderMachine orderMachine, Target CurrentOrderTarget)
     {
-        Debug.Log("Loading ordering progress bar");
+        //Debug.Log("Loading ordering progress bar");
         progressBar.gameObject.SetActive(true);
         float elapsedTime = 0f;
 
@@ -180,8 +193,8 @@ public class CustomerManager : MonoBehaviour
         }
         progressBar.gameObject.SetActive(false);
         orderMachine.IsAvailable = true;
-        AllMoney.Value += currentTarget.MoneyValue;
-        AssignSeat();
+        AllMoney.Value += CurrentOrderTarget.MoneyValue;
+        AssignSeat(CurrentOrderTarget);
         StartOrder();
     }
 

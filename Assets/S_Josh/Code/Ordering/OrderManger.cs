@@ -44,7 +44,7 @@ public class OrderManager : MonoBehaviour
     {
         if(seat is OrderingSpace)
         {
-            Debug.Log("Unlocking seat" + seat.name);
+            //Debug.Log("Unlocking seat" + seat.name);
             OrderingSpace seatSpace = (OrderingSpace)seat;
             if(LockedOrderSpaces.Contains(seatSpace))
             {
@@ -58,7 +58,7 @@ public class OrderManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Seat is not a SeatSpace");
+            //Debug.Log("Seat is not a SeatSpace");
         }
        
     }
