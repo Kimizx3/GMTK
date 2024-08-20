@@ -6,4 +6,5 @@ using UnityEngine;
 public class ListGameObjectVariable : ScriptableObject
 {
    public List<GameObject> listGameObject = new List<GameObject>();
+   
 }

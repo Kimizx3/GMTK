@@ -7,5 +7,4 @@ public class ListBaseSeatVariable : ScriptableObject
 {
    public List<BaseSpace> baseSpaces = new List<BaseSpace>();
 
-
 }

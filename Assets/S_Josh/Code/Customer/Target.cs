@@ -14,17 +14,23 @@ public class Target : MonoBehaviour
     public Slider progressBar; // Reference to the UI Slider component for the progress bar
     private Coroutine loadProgressCoroutine;
     private bool isLoading = false;
+    public SeatSpace CurrentSeat;
+    public VoidEventChannel StartOrderEvent;
+    public ListGameObjectVariable SeatedTargets;
 
-    Vector3 originalPosition;
+    public Vector3 originalPosition;
     private void Start() {
-        originalPosition = transform.localPosition;
+        
         StartLoading();
     }
-
+    private void Update() {
+        StartLoading();
+    }
     private void StartLoading()
     {
-        if (!isLoading)
+        if (!isLoading && CurrentSeat != null)
         {
+            originalPosition = transform.localPosition;
             loadProgressCoroutine = StartCoroutine(LoadProgressBar());
         }
     }
@@ -46,7 +52,10 @@ public class Target : MonoBehaviour
     {
         // Handle target's death (e.g., play an animation, remove from the scene)
         Debug.Log(gameObject.name + " has died.");
-        OnDeathEvent.RaiseEvent();
+        SeatedTargets.listGameObject.Remove(gameObject);
+        OnDeathEvent.RaiseEvent(); 
+        CurrentSeat.currentTarget = null;
+        StartOrderEvent.RaiseEvent();
         Destroy(gameObject);
     }
     private IEnumerator Shake()
@@ -98,5 +107,19 @@ public class Target : MonoBehaviour
 
         // Handle target's death
         Die();
+    }
+
+
+     public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+            return false;
+
+        Target other = (Target)obj;
+        return gameObject == other.gameObject;
+    }
+    public override int GetHashCode()
+    {
+        return gameObject.GetHashCode();
     }
 }

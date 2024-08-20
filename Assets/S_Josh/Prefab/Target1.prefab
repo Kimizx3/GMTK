@@ -252,7 +252,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.64779866, g: 0.36871552, b: 0.36871552, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -282,6 +282,8 @@ MonoBehaviour:
   damage: 5
   timeToFill: 10
   progressBar: {fileID: 6657087257311364341}
+  CurrentSeat: {fileID: 0}
+  StartOrderEvent: {fileID: 11400000, guid: f45fe3869550d1e41913ecafe36fb5a8, type: 2}
 --- !u!1 &2170660531353727326
 GameObject:
   m_ObjectHideFlags: 0

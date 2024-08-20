@@ -13,12 +13,21 @@ public class Turret : MonoBehaviour
     public List<MaterialCostEntry> RequriedMaterials;
     public ListMaterialtVariable Inventory;
     bool isAttacking = false;
-    public List<Target> CurrentTarget;
+    public List<Target> CurrentTarget = new List<Target>();
     public GameObject BulletPrefab;
     public int TargetCount = 1;
-
+    void OnEnable()
+    {
+        CurrentTarget.Clear();
+        CurrentTarget = new List<Target>();
+    }
+    void OnDisable()
+    { 
+        CurrentTarget.Clear();
+        CurrentTarget = new List<Target>();
+    }
     private void Update() {
-        if (!isAttacking && CurrentTarget != null)
+        if (!isAttacking && CurrentTarget.Count > 0)
         {
             TryAttack();
         }
