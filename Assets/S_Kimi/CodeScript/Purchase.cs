@@ -1,81 +1,130 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Purchase : MonoBehaviour
 {
     MenuHolder menuHolder;
-    public Button PurchaseButton;
+    public Button[] PurchaseButton;
     public Button CancelButton;
-    public GameObject relatedItem;
+    public GameObject[] relatedItem;
+    private bool isPurchased;
+    private int currentTurretIndex = -1;
 
-    private static Purchase currentPurchasedScript = null;
-    private bool isPurchased = false;
+    public GameObject[] currentTurret;
+    
+    public ListGameObjectVariable placedTurrets;
+    public VoidEventChannel TurretPlaced;
 
     private void Start()
     {
-        PurchaseButton.onClick.AddListener(PurchaseItem);
-
-        if (CancelButton != null && CancelButton.onClick.GetPersistentEventCount() == 0)
+        // Set up listeners for each purchase button
+        for (int i = 0; i < PurchaseButton.Length; i++)
         {
-            CancelButton.onClick.AddListener(RemoveCurrentPurchase);
+            int index = i;
+            PurchaseButton[i].onClick.AddListener(() => PurchaseItem(index));
         }
-        
+
+        // Set up the cancel button listener
+        if (CancelButton != null)
+        {
+            CancelButton.onClick.AddListener(CancelPurchase);
+            CancelButton.interactable = false; // Disable cancel button initially
+        }
+
+        // Initially disable all related items
         if (relatedItem != null)
         {
-            relatedItem.SetActive(false);
+            foreach (GameObject item in relatedItem)
+            {
+                if (item != null)
+                {
+                    item.SetActive(false);
+                }
+            }
         }
     }
 
-    public void PurchaseItem()
+    public void PurchaseItem(int index)
     {
-        if (!isPurchased)
+        if (!isPurchased && currentTurret[index] != null)
         {
-            if (currentPurchasedScript != null)
-            {
-                return;
-            }
-            
             isPurchased = true;
-            currentPurchasedScript = this;
+            currentTurretIndex = index;
+
+            foreach (Button button in PurchaseButton)
+            {
+                button.interactable = false;
+            }
             
-            PurchaseButton.interactable = false;
-            PurchaseButton.image.color = Color.gray;
-            
+            // Disable the purchase button and change its color
+            PurchaseButton[index].interactable = false;
+            PurchaseButton[index].image.color = Color.gray;
+
+            // Enable the cancel button
+            if (CancelButton != null)
+            {
+                CancelButton.interactable = true;
+            }
+
+            // Activate related items
             if (relatedItem != null)
             {
-                relatedItem.SetActive(true);
+                foreach (GameObject item in relatedItem)
+                {
+                    if (item != null)
+                    {
+                        item.SetActive(true);
+                    }
+                }
+            }
+
+            // Add the current turret to the placed turrets list
+            placedTurrets.listGameObject.Add(currentTurret[index]);
+
+            // Trigger a UI redraw if necessary
+            if (TurretPlaced != null)
+            {
+                TurretPlaced.RaiseEvent();
             }
         }
     }
 
-    public void RemoveCurrentPurchase()
+    public void CancelPurchase()
     {
-        if (currentPurchasedScript != null)
+        if (isPurchased && currentTurretIndex != -1)
         {
-            currentPurchasedScript.RemovePurchase();
-        }
-    }
-
-    public void RemovePurchase()
-    {
-        if (isPurchased)
-        {
-            if (relatedItem != null)
-            {
-                relatedItem.SetActive(false);
-            }
-            
             isPurchased = false;
-            PurchaseButton.interactable = true;
-            PurchaseButton.image.color = Color.white;
 
-            if (currentPurchasedScript == this)
+            foreach (Button button in PurchaseButton)
             {
-                currentPurchasedScript = null;
+                button.interactable = true;
             }
+
+            PurchaseButton[currentTurretIndex].interactable = true;
+            PurchaseButton[currentTurretIndex].image.color = Color.white;
+
+            if (relatedItem != null)
+            {
+                foreach (GameObject item in relatedItem)
+                {
+                    if (item != null)
+                    {
+                        item.SetActive(false);
+                    }
+                }
+            }
+
+            placedTurrets.listGameObject.Remove(currentTurret[currentTurretIndex]);
+
+            if (CancelButton != null)
+            {
+                CancelButton.interactable = false;
+            }
+
+            currentTurretIndex = -1;
         }
     }
 }
+

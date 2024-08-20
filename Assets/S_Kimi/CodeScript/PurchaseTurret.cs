@@ -9,10 +9,7 @@ public class PurchaseTurret : MonoBehaviour
     public GameObject[] relatedItems; // Related items that will be activated upon purchase
     public int[] optionIndices;
     public GameObject CurrentTurret;
-
-
-
-
+    
     public ListGameObjectVariable purchasedTurrets;
     public VoidEventChannel RedrawMenu;
 
@@ -47,23 +44,9 @@ public class PurchaseTurret : MonoBehaviour
             PurchaseButton.interactable = false;
             PurchaseButton.image.color = Color.gray;
 
-
-
             purchasedTurrets.listGameObject.Add(CurrentTurret);
             RedrawMenu.RaiseEvent();
-
-
-            // // Activate all related items
-            // if (relatedItems != null)
-            // {
-            //     foreach (GameObject item in relatedItems)
-            //     {
-            //         if (item != null)
-            //         {
-            //             item.SetActive(true);
-            //         }
-            //     }
-            // }
+            
 
             // Add each prefab in myNewPrefab array to the menu
             if (menuHolder != null && optionIndices != null)
@@ -73,10 +56,6 @@ public class PurchaseTurret : MonoBehaviour
                     menuHolder.ActivateMenuOption(index);
                 }
             }
-            // else
-            // {
-            //     Debug.LogWarning("MenuHolder or myNewPrefab array is null.");
-            // }
         }
     }
 }

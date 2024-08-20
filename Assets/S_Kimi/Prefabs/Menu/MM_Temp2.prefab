@@ -123,10 +123,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1371100700818402451}
-        m_TargetAssemblyTypeName: MenuHolder, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 3
+      - m_Target: {fileID: 1411730597774226902}
+        m_TargetAssemblyTypeName: Purchase, Assembly-CSharp
+        m_MethodName: RemoveCurrentPurchase
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -174,6 +174,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b360772966bead44b73720a471c52b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuHolder: {fileID: 0}
   PurchaseButton: {fileID: 2096360755639892236}
   CancelButton: {fileID: 763061007005730538, guid: 96b03dd432a20dc4dad0dd7ba91126cd, type: 3}
-  relatedItem: {fileID: 583128362518681702, guid: 44810a126a594f643839e80d923fcfac, type: 3}
+  relatedItem:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  currentTurret: {fileID: 0}
+  placedTurrets: {fileID: 11400000, guid: 3977fd1befe0c4c1ea9f2f57bc896ad5, type: 2}
+  TurretPlaced: {fileID: 11400000, guid: 81c5a84a94ade284d8386b6998fc84c8, type: 2}
