@@ -117,22 +117,27 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DestroyTower
+      value: CancelPurchase
       objectReference: {fileID: 0}
     - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MenuHolder, Assembly-CSharp
+      value: Purchase, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6667138952346377955, guid: 111609227815d564daa2cc3d3770e400, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6337981018024553958, guid: 111609227815d564daa2cc3d3770e400, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -6,28 +6,75 @@ using UnityEngine.UI;
 
 public class Purchase : MonoBehaviour
 {
-    public Button PruchaseButton;
+    public Button PurchaseButton;
+    public static Button CancelButton;
     public GameObject relatedItem;
 
+    private static Purchase currentPurchasedScript = null;
     private bool isPurchased = false;
 
     private void Start()
     {
-        PruchaseButton.onClick.AddListener(PurchaseItem);
+        PurchaseButton.onClick.AddListener(PurchaseItem);
+
+        if (CancelButton != null && CancelButton.onClick.GetPersistentEventCount() == 0)
+        {
+            CancelButton.onClick.AddListener(RemoveCurrentPurchase);
+        }
+        
+        if (relatedItem != null)
+        {
+            relatedItem.SetActive(false);
+        }
     }
 
-    private void PurchaseItem()
+    public void PurchaseItem()
     {
         if (!isPurchased)
         {
+            if (currentPurchasedScript != null)
+            {
+                return;
+            }
+            
             isPurchased = true;
-            PruchaseButton.interactable = false;
-            PruchaseButton.image.color = Color.gray;
+            currentPurchasedScript = this;
+            
+            PurchaseButton.interactable = false;
+            PurchaseButton.image.color = Color.gray;
+            
             if (relatedItem != null)
             {
                 relatedItem.SetActive(true);
             }
         }
-        
+    }
+
+    public static void RemoveCurrentPurchase()
+    {
+        if (currentPurchasedScript != null)
+        {
+            currentPurchasedScript.RemovePurchase();
+        }
+    }
+
+    public void RemovePurchase()
+    {
+        if (isPurchased)
+        {
+            if (relatedItem != null)
+            {
+                relatedItem.SetActive(false);
+            }
+            
+            isPurchased = false;
+            PurchaseButton.interactable = true;
+            PurchaseButton.image.color = Color.white;
+
+            if (currentPurchasedScript == this)
+            {
+                currentPurchasedScript = null;
+            }
+        }
     }
 }
