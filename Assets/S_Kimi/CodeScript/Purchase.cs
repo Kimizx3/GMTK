@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Purchase : MonoBehaviour
 {
     public Button PurchaseButton;
-    public static Button CancelButton;
+    public Button CancelButton;
     public GameObject relatedItem;
 
     private static Purchase currentPurchasedScript = null;
@@ -50,7 +50,7 @@ public class Purchase : MonoBehaviour
         }
     }
 
-    public static void RemoveCurrentPurchase()
+    public void RemoveCurrentPurchase()
     {
         if (currentPurchasedScript != null)
         {

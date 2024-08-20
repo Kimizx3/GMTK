@@ -26,6 +26,10 @@ public class MenuHolder : MonoBehaviour
     private void Start()
     {
         InitializeMenu();
+        // SetMenuOptionActive(0,true);
+        // SetMenuOptionActive(1,true);
+        // SetMenuOptionActive(2,false);
+        // SetMenuOptionActive(3,false);
     }
 
     public void RedrawMenu()
@@ -119,6 +123,18 @@ public class MenuHolder : MonoBehaviour
         }
 
         rectTransform.anchoredPosition = targetPosition;
+    }
+    
+    public void SetMenuOptionActive(int index, bool isActive)
+    {
+        if (index >= 0 && index < instantiatedOptions.Count)
+        {
+            instantiatedOptions[index].SetActive(isActive);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid index provided for menu option.");
+        }
     }
 }
 
