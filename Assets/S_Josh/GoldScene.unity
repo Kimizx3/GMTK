@@ -3282,11 +3282,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1266271437718131737, guid: 7ef27a155bffc3d4c90fe243cdea24fe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.7784424
+      value: 3.142
       objectReference: {fileID: 0}
     - target: {fileID: 1266271437718131737, guid: 7ef27a155bffc3d4c90fe243cdea24fe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.106414795
+      value: 2.823
       objectReference: {fileID: 0}
     - target: {fileID: 1266271437718131737, guid: 7ef27a155bffc3d4c90fe243cdea24fe, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3425,14 +3425,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5446708808599318085}
     m_Modifications:
-    - target: {fileID: 248299022477237816, guid: 3237c53b9072eac4db14b3f706c67aa9, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 641891451f850f7429807d07d72d3b5b, type: 3}
-    - target: {fileID: 248299022477237816, guid: 3237c53b9072eac4db14b3f706c67aa9, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3862994966898143402, guid: 3237c53b9072eac4db14b3f706c67aa9, type: 3}
       propertyPath: m_Name
       value: Turret
