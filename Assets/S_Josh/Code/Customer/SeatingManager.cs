@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// Keep track of the seating in the restaurant, includes locked and unlocked seats
+// Keep track of the seating in the restaurant, includes locked and unlocked seats, and includes the available seats
 public class SeatingManager : MonoBehaviour
 {
     public List<SeatSpace> AllSeats;
     public ListBaseSeatVariable unlockedSeats;
     private List<SeatSpace> lockedSeats = new List<SeatSpace>();
     public UnlockSeatEvent unlockSeatEvent;
+    
     private void OnEnable() {
+        lockedSeats.Clear();
+        unlockedSeats.baseSpaces.Clear();
         unlockSeatEvent.OnEventRaised += UnlockSeat;
     }
     private void OnDisable() {
@@ -22,8 +25,6 @@ public class SeatingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lockedSeats.Clear();
-        unlockedSeats.baseSpaces.Clear();
         foreach(SeatSpace seat in AllSeats)
         {
             if (seat.IsUnlocked)
@@ -43,6 +44,7 @@ public class SeatingManager : MonoBehaviour
     {
         if(seat is SeatSpace)
         {
+            Debug.Log("Unlocking seat" + seat.name);
             SeatSpace seatSpace = (SeatSpace)seat;
             if(lockedSeats.Contains(seatSpace))
             {

@@ -9,10 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7130264ece7a824cb3c28dc9faf7097, type: 3}
-  m_Name: TotalMoney
+  m_Script: {fileID: 11500000, guid: e1dfdce57f7f1734ea27505133de81d2, type: 3}
+  m_Name: UnlockSeatEvent
   m_EditorClassIdentifier: 
-  DeveloperDescription: Total money to buy stuff
-  Value: 800
-  MaxValue: 0
-  IsLimit: 0

@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7e52119c96e9454b98ec99b3b2629b2, type: 3}
-  m_Name: OnTargetDied
+  m_Name: StartOrderEvent
   m_EditorClassIdentifier: 
