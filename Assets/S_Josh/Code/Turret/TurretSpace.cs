@@ -10,11 +10,14 @@ public class TurretSpace : BaseSpace
     {
         if(CurrentTurret != null)
         {
+            
             Debug.Log("Showing turret upgrade menu");
             
         }
         else
         {
+            // this is for placing the turret
+            // currrntTurret = turret;
             Debug.Log("No turret to upgrade, showing buying turret menu");
         }
     }

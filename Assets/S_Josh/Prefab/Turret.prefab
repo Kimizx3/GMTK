@@ -164,8 +164,10 @@ MonoBehaviour:
   - materialName: 0
     costAmount: 2
   Inventory: {fileID: 11400000, guid: dd6bfea340fed7441b5b2db73bdecd05, type: 2}
-  CurrentTarget: {fileID: 0}
+  CurrentTarget:
+  - {fileID: 0}
   BulletPrefab: {fileID: 6914935356733581380, guid: 89eda1a97085a0347b856358ce4e6ae0, type: 3}
+  TargetCount: 1
 --- !u!1 &4453527781465712420
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,8 +330,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 528dffc10e548cf4fabc4f32ed794b8e, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 641891451f850f7429807d07d72d3b5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
