@@ -246,6 +246,8 @@ MonoBehaviour:
   - {fileID: 2697257056421881544, guid: 87d316d7611b635428ec6da8eb42b4ca, type: 3}
   - {fileID: 1371100700818402451, guid: 471824d392eb13941a13a4086642b9db, type: 3}
   - {fileID: 3733054185549245556, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+  purchasedTurrets: {fileID: 11400000, guid: 3977fd1befe0c4c1ea9f2f57bc896ad5, type: 2}
+  RedrawMenu: {fileID: 11400000, guid: e58d002b637734e32843463b1166e4c8, type: 2}
 --- !u!114 &6625880591863318051
 MonoBehaviour:
   m_ObjectHideFlags: 0

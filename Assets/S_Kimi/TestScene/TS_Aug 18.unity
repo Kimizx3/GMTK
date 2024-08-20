@@ -514,6 +514,11 @@ MonoBehaviour:
   relatedItems:
   - {fileID: 0}
   - {fileID: 0}
+  optionIndices: 
+  CurrentTurret: {fileID: 1371100700818402451, guid: 471824d392eb13941a13a4086642b9db, type: 3}
+  purchasedTurrets: {fileID: 11400000, guid: 3977fd1befe0c4c1ea9f2f57bc896ad5, type: 2}
+  RedrawMenu: {fileID: 11400000, guid: e58d002b637734e32843463b1166e4c8, type: 2}
+  CancelButton: {fileID: 0}
 --- !u!224 &610524541 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1621401903860524468, guid: dcea9fab740212f4484a6fd91bfac58b, type: 3}
@@ -725,6 +730,11 @@ MonoBehaviour:
   relatedItems:
   - {fileID: 0}
   - {fileID: 0}
+  optionIndices: 
+  CurrentTurret: {fileID: 2697257056421881544, guid: 87d316d7611b635428ec6da8eb42b4ca, type: 3}
+  purchasedTurrets: {fileID: 11400000, guid: 3977fd1befe0c4c1ea9f2f57bc896ad5, type: 2}
+  RedrawMenu: {fileID: 11400000, guid: e58d002b637734e32843463b1166e4c8, type: 2}
+  CancelButton: {fileID: 0}
 --- !u!1 &1203306108
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +746,7 @@ GameObject:
   - component: {fileID: 1203306109}
   - component: {fileID: 1203306111}
   - component: {fileID: 1203306110}
+  - component: {fileID: 1203306112}
   m_Layer: 5
   m_Name: BuyMenu
   m_TagString: Untagged
@@ -803,6 +814,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203306108}
   m_CullTransparentMesh: 1
+--- !u!114 &1203306112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203306108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ff2cb979cf3764982c79a8b220e0cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PurchasedTurrets: {fileID: 11400000, guid: 3977fd1befe0c4c1ea9f2f57bc896ad5, type: 2}
+  CancelButton: {fileID: 7340578754213934205, guid: 96b03dd432a20dc4dad0dd7ba91126cd, type: 3}
+  HasBought: 0
+  RedrawMenu: {fileID: 11400000, guid: e58d002b637734e32843463b1166e4c8, type: 2}
+  UpdateList: {fileID: 11400000, guid: 73cb0ae411117f9488e87da376e3a6e1, type: 2}
 --- !u!224 &1346713456 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8725775470070566583, guid: dcea9fab740212f4484a6fd91bfac58b, type: 3}
@@ -2010,6 +2038,11 @@ MonoBehaviour:
   relatedItems:
   - {fileID: 0}
   - {fileID: 0}
+  optionIndices: 
+  CurrentTurret: {fileID: 3733054185549245556, guid: 111609227815d564daa2cc3d3770e400, type: 3}
+  purchasedTurrets: {fileID: 11400000, guid: 3977fd1befe0c4c1ea9f2f57bc896ad5, type: 2}
+  RedrawMenu: {fileID: 11400000, guid: e58d002b637734e32843463b1166e4c8, type: 2}
+  CancelButton: {fileID: 0}
 --- !u!1001 &350339588785496975
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edcb21fae3aa7404bacea702b34bb27e, type: 3}
-  m_Name: AvaliableTurrets
+  m_Script: {fileID: 11500000, guid: a7e52119c96e9454b98ec99b3b2629b2, type: 3}
+  m_Name: UpdateList
   m_EditorClassIdentifier: 
-  listGameObject:
-  - {fileID: 0}

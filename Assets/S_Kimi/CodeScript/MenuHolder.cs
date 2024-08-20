@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +14,23 @@ public class MenuHolder : MonoBehaviour
     private List<GameObject>
         instantiatedOptions = new List<GameObject>(); // List to keep track of instantiated menu options
 
-    public List<GameObject> menuOptionPrefab; // List of menu option prefabs
+    // public List<GameObject> menuOptionPrefab; // List of menu option prefabs
+
+    public ListGameObjectVariable purchasedTurrets;
+    public VoidEventChannel RedrawMenu;
 
     private void Start()
     {
         InitializeMenu();
     }
+    private void OnEnable() {
+        RedrawMenu.OnEventRaised += InitializeMenu;
+    }
+    private void OnDisable() {
+        RedrawMenu.OnEventRaised -= InitializeMenu;
+    }
+
+
 
     private void InitializeMenu()
     {
@@ -36,7 +48,7 @@ public class MenuHolder : MonoBehaviour
         instantiatedOptions.Clear();
 
         // Instantiate and store menu options in the container
-        foreach (GameObject prefab in menuOptionPrefab)
+        foreach (GameObject prefab in purchasedTurrets.listGameObject)
         {
             GameObject option = Instantiate(prefab, menuContainer);
             option.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
