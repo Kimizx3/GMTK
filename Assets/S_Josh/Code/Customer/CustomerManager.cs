@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class CustomerManager : MonoBehaviour
      public List<Target> AllTargets = new List<Target>();
 
      public ListBaseSeatVariable unlockedSeats;
+     public ListBaseSeatVariable UnlockedOrderSpaces;
      public VoidEventChannel StartOrderEvent;
+     public IntVariable AllMoney;
      Target currentTarget;
 
     private void OnEnable() {
@@ -34,14 +37,14 @@ public class CustomerManager : MonoBehaviour
 
     public void StartOrder()
     {
-        if(!CheckSeatAvailability() || unlockedSeats.baseSpaces.Count == 0 || currentTarget == null || !CheckOrderAvailability())
+        if(!CheckSeatAvailability() || unlockedSeats.baseSpaces.Count == 0 || currentTarget == null || !CheckOrderAvailability() || UnlockedOrderSpaces.baseSpaces.Count == 0)
         {
             Debug.Log("No seats available");
             return;
         }
         if(AllTargets.Count == 0)
         {
-            Debug.Log("No targets available");
+            Debug.Log("Finished all orders");
             return;
         }
         currentTarget = AllTargets[0].GetComponent<Target>();
@@ -52,14 +55,35 @@ public class CustomerManager : MonoBehaviour
 
     public void FinishOrder()
     {
-        // if(SeatedTargets.listGameObject.Count == 0)
-        // {
-        //     Debug.Log("No targets available");
-        //     return;
-        // }
-        //order food
-        //once finished assign seats
-        AssignSeat();
+        AssignOrderMachine();
+    }
+
+    public void AssignOrderMachine()
+    {
+        
+        foreach(BaseSpace baseSpace in UnlockedOrderSpaces.baseSpaces)
+        {
+            if(baseSpace is OrderingSpace)
+            {
+                OrderingSpace orderingSpace = (OrderingSpace)baseSpace;
+                if(orderingSpace.IsUnlocked)
+                {
+                    if(orderingSpace.GetComponentInChildren<OrderMachine>().IsAvailable)
+                    {
+                        OrderMachine _orderMachine = orderingSpace.GetComponentInChildren<OrderMachine>();
+                        _orderMachine.IsAvailable = false;
+                        currentTarget.StartToGetMad = true;
+                        MoveToSeat(orderingSpace, currentTarget);
+                        StartCoroutine(LoadProgressBar(_orderMachine.timeToOrderMultiplier * currentTarget.TimeToOrder, _orderMachine.progressBar, _orderMachine));
+                        return;
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Order machine is not unlocked when it is suppose to be unlocked");
+                }
+            }
+        }
     }
 
 
@@ -67,12 +91,6 @@ public class CustomerManager : MonoBehaviour
 
     public void AssignSeat()
     {
-        if (unlockedSeats.baseSpaces.Count == 0 || !CheckSeatAvailability())
-        {
-            Debug.Log("No seats available");
-            return;
-        }
-        
         foreach(BaseSpace baseSpace in unlockedSeats.baseSpaces)
         {
             if(baseSpace is SeatSpace)
@@ -86,8 +104,10 @@ public class CustomerManager : MonoBehaviour
                         currentTarget.CurrentSeat = seatSpace;
                         SeatedTargets.listGameObject.Add(currentTarget.gameObject);
                         MoveToSeat(seatSpace, currentTarget);
+                        currentTarget.originalPosition = currentTarget.transform.localPosition;
                         UpdateTarget.RaiseEvent();
                         AllTargets.Remove(currentTarget);
+                        
                         StartOrder();
                         return;
                     }
@@ -101,7 +121,7 @@ public class CustomerManager : MonoBehaviour
         
     }
 
-    void MoveToSeat(SeatSpace seatSpace, Target target)
+    void MoveToSeat(BaseSpace seatSpace, Target target)
     {
         target.transform.position = seatSpace.transform.position;
        // target.originalPosition = seatSpace.transform.position;
@@ -125,7 +145,44 @@ public class CustomerManager : MonoBehaviour
 
     bool CheckOrderAvailability()
     {
-        return true;
+        foreach(BaseSpace baseSpace in UnlockedOrderSpaces.baseSpaces)
+        {
+            if(baseSpace is OrderingSpace)
+            {
+                OrderingSpace seatSpace = (OrderingSpace)baseSpace;
+                if(seatSpace.GetComponentInChildren<OrderMachine>().IsAvailable)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    private IEnumerator LoadProgressBar(float timeToFill, Slider progressBar, OrderMachine orderMachine)
+    {
+        Debug.Log("Loading ordering progress bar");
+        progressBar.gameObject.SetActive(true);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < timeToFill)
+        {
+            // If the target is destroyed during this time, exit the coroutine early
+            if (this == null)
+            {
+                yield break;
+            }
+
+            elapsedTime += Time.deltaTime;
+            progressBar.value = Mathf.Clamp01(elapsedTime / timeToFill);
+            yield return null;
+        }
+        progressBar.gameObject.SetActive(false);
+        orderMachine.IsAvailable = true;
+        AllMoney.Value += currentTarget.MoneyValue;
+        AssignSeat();
+        StartOrder();
     }
 
 

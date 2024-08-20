@@ -284,6 +284,12 @@ MonoBehaviour:
   progressBar: {fileID: 6657087257311364341}
   CurrentSeat: {fileID: 0}
   StartOrderEvent: {fileID: 11400000, guid: f45fe3869550d1e41913ecafe36fb5a8, type: 2}
+  SeatedTargets: {fileID: 11400000, guid: faab974fd472b6f4aab66dc93e9ee58e, type: 2}
+  TimeToOrder: 5
+  MoneyValue: 50
+  StartToGetMad: 0
+  Health: {fileID: 1194801428498922141}
+  originalPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2170660531353727326
 GameObject:
   m_ObjectHideFlags: 0
