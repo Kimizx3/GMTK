@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Water
   m_EditorClassIdentifier: 
   MaterialType: 0
-  AmountLeft: 332
+  AmountLeft: 7648
   Cost: 3
   Name: Water

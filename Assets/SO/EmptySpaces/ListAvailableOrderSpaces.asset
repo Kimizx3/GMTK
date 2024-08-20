@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7130264ece7a824cb3c28dc9faf7097, type: 3}
-  m_Name: TotalMoney
+  m_Script: {fileID: 11500000, guid: a4c83e0531a261b479aadd712a74f02a, type: 3}
+  m_Name: ListAvailableOrderSpaces
   m_EditorClassIdentifier: 
-  DeveloperDescription: Total money to buy stuff
-  Value: 4550
-  MaxValue: 0
-  IsLimit: 0
+  baseSpaces: []

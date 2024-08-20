@@ -17,20 +17,33 @@ public class Target : MonoBehaviour
     public SeatSpace CurrentSeat;
     public VoidEventChannel StartOrderEvent;
     public ListGameObjectVariable SeatedTargets;
+    public float TimeToOrder = 5.0f;
+
+    public int MoneyValue;
+    public bool StartToGetMad = false;
+    public GameObject Health;
 
     public Vector3 originalPosition;
     private void Start() {
-        
+        StartToGetMad = false;
+        progressBar.gameObject.SetActive(false);
         StartLoading();
     }
     private void Update() {
         StartLoading();
+        if(CurrentSeat == null)
+        {
+            Health.SetActive(false);
+        }
+        else
+        {
+            Health.SetActive(true);
+        }
     }
     private void StartLoading()
     {
-        if (!isLoading && CurrentSeat != null)
+        if (!isLoading && StartToGetMad)
         {
-            originalPosition = transform.localPosition;
             loadProgressCoroutine = StartCoroutine(LoadProgressBar());
         }
     }
@@ -81,6 +94,7 @@ public class Target : MonoBehaviour
 
     private IEnumerator LoadProgressBar()
     {
+        progressBar.gameObject.SetActive(true);
         isLoading = true;
         float elapsedTime = 0f;
 

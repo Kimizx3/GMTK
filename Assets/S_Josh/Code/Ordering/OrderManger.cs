@@ -1,39 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-
-// Keep track of the seating in the restaurant, includes locked and unlocked seats, and includes the available seats
-public class SeatingManager : MonoBehaviour
+public class OrderManager : MonoBehaviour
 {
-    public List<SeatSpace> AllSeats;
-    public ListBaseSeatVariable unlockedSeats;
-    private List<SeatSpace> lockedSeats = new List<SeatSpace>();
+    public List<OrderingSpace> AllOrderMachines = new List<OrderingSpace>();
+    public ListBaseSeatVariable UnlockedOrderSpaces;
+    public List<OrderingSpace> LockedOrderSpaces = new List<OrderingSpace>();
+
     public UnlockSeatEvent unlockSeatEvent;
     
     private void OnEnable() {
-        lockedSeats.Clear();
-        unlockedSeats.baseSpaces.Clear();
+        LockedOrderSpaces.Clear();
+        UnlockedOrderSpaces.baseSpaces.Clear();
         unlockSeatEvent.OnEventRaised += UnlockSeat;
     }
     private void OnDisable() {
-        lockedSeats.Clear();
-        unlockedSeats.baseSpaces.Clear();
+        LockedOrderSpaces.Clear();
+        UnlockedOrderSpaces.baseSpaces.Clear();
         unlockSeatEvent.OnEventRaised -= UnlockSeat;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        foreach(SeatSpace seat in AllSeats)
+        foreach(OrderingSpace seat in AllOrderMachines)
         {
             if (seat.IsUnlocked)
             {
-                unlockedSeats.baseSpaces.Add(seat);
+                UnlockedOrderSpaces.baseSpaces.Add(seat);
             }
             else
             {
-                lockedSeats.Add(seat);
+                LockedOrderSpaces.Add(seat);
             }
         }
     }
@@ -42,14 +42,14 @@ public class SeatingManager : MonoBehaviour
 
     void UnlockSeat(BaseSpace seat)
     {
-        if(seat is SeatSpace)
+        if(seat is OrderingSpace)
         {
             Debug.Log("Unlocking seat" + seat.name);
-            SeatSpace seatSpace = (SeatSpace)seat;
-            if(lockedSeats.Contains(seatSpace))
+            OrderingSpace seatSpace = (OrderingSpace)seat;
+            if(LockedOrderSpaces.Contains(seatSpace))
             {
-                lockedSeats.Remove(seatSpace);
-                unlockedSeats.baseSpaces.Add(seat);
+                LockedOrderSpaces.Remove(seatSpace);
+                UnlockedOrderSpaces.baseSpaces.Add(seat);
             }
             else
             {
@@ -62,4 +62,7 @@ public class SeatingManager : MonoBehaviour
         }
        
     }
+
+
+
 }
