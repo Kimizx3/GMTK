@@ -503,56 +503,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 579564609}
     m_Modifications:
-    - target: {fileID: 1194801428498922141, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2008369953826914376, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
       propertyPath: m_Name
       value: Target1 (3)
       objectReference: {fileID: 0}
     - target: {fileID: 2163425536384538109, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2489881904806727388, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3000476716431034614, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4661835792053435751, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: MoneyValue
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4661835792053435751, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: SeatedTargets
-      value: 
-      objectReference: {fileID: 11400000, guid: faab974fd472b6f4aab66dc93e9ee58e, type: 2}
-    - target: {fileID: 4661835792053435751, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: StartOrderEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: f45fe3869550d1e41913ecafe36fb5a8, type: 2}
-    - target: {fileID: 4718972534442285411, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: m_Color.b
-      value: 0.36871552
-      objectReference: {fileID: 0}
-    - target: {fileID: 4718972534442285411, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: m_Color.g
-      value: 0.36871552
-      objectReference: {fileID: 0}
-    - target: {fileID: 4718972534442285411, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: m_Color.r
-      value: 0.64779866
-      objectReference: {fileID: 0}
-    - target: {fileID: 4718972534442285411, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4718972534442285411, guid: 1246d589056aac947a2869fc8636d28f, type: 3}
-      propertyPath: m_RendererPriority
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6074854831856715917, guid: 1246d589056aac947a2869fc8636d28f, type: 3}

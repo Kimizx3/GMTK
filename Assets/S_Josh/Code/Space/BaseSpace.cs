@@ -37,7 +37,7 @@ public abstract class BaseSpace : MonoBehaviour
 
     public virtual void Buy()
     {
-        //Debug.Log("Space is unlocked");
+        //sDebug.Log("Space is unlocked");
         TotalMoney.Value -= BuyEvent.Cost;
         IsUnlocked = true;
        
