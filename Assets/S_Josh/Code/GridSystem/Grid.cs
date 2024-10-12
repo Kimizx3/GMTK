@@ -44,7 +44,12 @@ public class Grid<T>
         Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
     }
 
-    private Vector3 GetWorldPosition(int x, int y)
+    public float GetCellSize()
+    {
+        return cellSize;
+    }
+
+    public Vector3 GetWorldPosition(int x, int y)
     {
         return new Vector3(x, y) * cellSize + originPosition;
     }
@@ -85,6 +90,10 @@ public class Grid<T>
         {
             return default;
         }
+    }
+    public void TriggerGridObjectChanged(int x, int y)
+    {
+        if (OnGridValueChanged != null) OnGridValueChanged(this, new OnGridValueChangedEventArgs { x = x, y = y });
     }
 
     public T GetValue(Vector3 worldPosition)
