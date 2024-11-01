@@ -16,6 +16,7 @@ public class PlacedObject : MonoBehaviour
         placedObject.placedObjectTypeSO = placedObjectTypeSO;
         placedObject.origin = origin;
         placedObject.dir = dir;
+        placedObjectTransform.GetComponent<BaseSpace>().Buy();
         return placedObject;
     }
 

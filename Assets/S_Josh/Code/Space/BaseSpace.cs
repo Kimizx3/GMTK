@@ -3,42 +3,33 @@ using UnityEngine;
 public abstract class BaseSpace : MonoBehaviour
 {
     public IntVariable TotalMoney;
-    public BuyEvent BuyEvent;
-    public ConfirmBuyEvent ConfirmBuyEvent;
     public bool IsUnlocked = false;
+    public int Cost = 20;
 
-    private void Awake() {
-        BuyEvent.OnEventRaised += Buy;
-    }
-    
-    private void OnDestroy() {
-        BuyEvent.OnEventRaised -= Buy;
-    }
-
-    public void OnMouseDown()
-    {
-        if(IsUnlocked)
-        {
-            ShowContent();
-        }
-        else
-        {
-            if(TotalMoney.Value >= BuyEvent.Cost)
-            {
-                //Debug.Log("Space is locked, showing confirm menu");
-                ConfirmBuyEvent.RaiseEvent(BuyEvent);
-            }
-            else
-            {
-                //Debug.Log("Not enough money to unlock the space");
-            }
-        }
-    }
+    // public void OnMouseDown()
+    // {
+    //     if(IsUnlocked)
+    //     {
+    //         ShowContent();
+    //     }
+    //     else
+    //     {
+    //         if(TotalMoney.Value >= BuyEvent.Cost)
+    //         {
+    //             //Debug.Log("Space is locked, showing confirm menu");
+    //             ConfirmBuyEvent.RaiseEvent(BuyEvent);
+    //         }
+    //         else
+    //         {
+    //             //Debug.Log("Not enough money to unlock the space");
+    //         }
+    //     }
+    // }
 
     public virtual void Buy()
     {
         //sDebug.Log("Space is unlocked");
-        TotalMoney.Value -= BuyEvent.Cost;
+        TotalMoney.Value -= Cost;
         IsUnlocked = true;
        
     }

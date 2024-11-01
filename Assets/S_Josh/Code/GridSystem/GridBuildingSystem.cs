@@ -14,6 +14,8 @@ public class GridBuildingSystem : MonoBehaviour
     private PlacedObjectTypeSO.Dir dir = PlacedObjectTypeSO.Dir.Up;
     public VoidEventChannel RefreshVisualEvent;
     private Vector2Int currentMouseXY = new Vector2Int(0, 0);
+
+    public IntVariable TotalMoney;
     public bool isBuilding = false;
     private void Awake() {
         testTransform = testTransformList[0];
@@ -82,38 +84,42 @@ public class GridBuildingSystem : MonoBehaviour
         if(isBuilding)
         {
             if (Input.GetMouseButtonDown(0))
-        {
-            grid.GetXY(UtilsClass.GetMouseWorldPosition(), out int x, out int y);
-            List<Vector2Int> gridPositionList = testTransform.GetGridPositionList(new Vector2Int(x, y), dir);
-            PathNode building = grid.GetValue(x, y);
-            bool _canBuild = true;
-            foreach(Vector2Int gridPosition in gridPositionList)
             {
-
-                if(grid.GetValue(gridPosition.x, gridPosition.y) == null || !grid.GetValue(gridPosition.x, gridPosition.y).CanBuild())
+                if(TotalMoney.Value < testTransform.Prefab.GetComponent<BaseSpace>().Cost)
                 {
-                    _canBuild = false;
-                    break;
+                    UtilsClass.CreateWorldTextPopup("Not Enough Money", UtilsClass.GetMouseWorldPosition());
+                    return;
                 }
-            }
-            if(_canBuild){
-                Vector2Int rotationOffset = testTransform.GetRotationOffset(dir);
-                print(rotationOffset);
-                Vector3 placedBuildingPosition = grid.GetWorldPosition(x,y) + new Vector3(rotationOffset.x, rotationOffset.y, 0) * grid.GetCellSize();
-                print(placedBuildingPosition);
-                PlacedObject placedObject = PlacedObject.Create(placedBuildingPosition, testTransform, new Vector2Int(x, y), dir);
-                
+                grid.GetXY(UtilsClass.GetMouseWorldPosition(), out int x, out int y);
+                List<Vector2Int> gridPositionList = testTransform.GetGridPositionList(new Vector2Int(x, y), dir);
+                PathNode building = grid.GetValue(x, y);
+                bool _canBuild = true;
                 foreach(Vector2Int gridPosition in gridPositionList)
                 {
-                    // if(grid.GetValue(gridPosition.x, gridPosition.y) != null) 
-                    grid.GetValue(gridPosition.x, gridPosition.y).SetTransform(placedObject);
-                    grid.GetValue(gridPosition.x, gridPosition.y).isWalkable = false;
+
+                    if(grid.GetValue(gridPosition.x, gridPosition.y) == null || !grid.GetValue(gridPosition.x, gridPosition.y).CanBuild())
+                    {
+                        _canBuild = false;
+                        break;
+                    }
                 }
-            }
-            else
-            {
-                UtilsClass.CreateWorldTextPopup("Cannot build here", UtilsClass.GetMouseWorldPosition());
-            }
+                if(_canBuild){
+                    Vector2Int rotationOffset = testTransform.GetRotationOffset(dir);
+                    print(rotationOffset);
+                    Vector3 placedBuildingPosition = grid.GetWorldPosition(x,y) + new Vector3(rotationOffset.x, rotationOffset.y, 0) * grid.GetCellSize();
+                    print(placedBuildingPosition);
+                    PlacedObject placedObject = PlacedObject.Create(placedBuildingPosition + new Vector3(testTransform.Width * 5, testTransform.Height * 5), testTransform, new Vector2Int(x, y), dir);
+                    foreach(Vector2Int gridPosition in gridPositionList)
+                    {
+                        // if(grid.GetValue(gridPosition.x, gridPosition.y) != null) 
+                        grid.GetValue(gridPosition.x, gridPosition.y).SetTransform(placedObject);
+                        grid.GetValue(gridPosition.x, gridPosition.y).isWalkable = false;
+                    }
+                }
+                else
+                {
+                    UtilsClass.CreateWorldTextPopup("Cannot build here", UtilsClass.GetMouseWorldPosition());
+                }
         }
         if (Input.GetMouseButtonDown(1))
         {

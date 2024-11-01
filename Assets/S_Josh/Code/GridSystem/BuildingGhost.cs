@@ -6,7 +6,6 @@ using CodeMonkey.Utils;
 public class BuildingGhost : MonoBehaviour
 {
    private Transform visual;
-    private PlacedObjectTypeSO placedObjectTypeSO;
     public GridBuildingSystemVariable gridBuildingSystemVariable;
     public VoidEventChannel RefreshVisualEvent;
 
@@ -25,8 +24,9 @@ public class BuildingGhost : MonoBehaviour
 
     private void LateUpdate() {
         if(gridBuildingSystemVariable.gridBuildingSystem == null || !gridBuildingSystemVariable.gridBuildingSystem.isBuilding) return;
+        PlacedObjectTypeSO placedObjectTypeSO = gridBuildingSystemVariable.gridBuildingSystem.GetPlacedObjectTypeSO();
         Vector3 targetPosition = gridBuildingSystemVariable.gridBuildingSystem.GetMouseWorldSnappedPosition();
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
+        transform.position = Vector3.Lerp(transform.position, targetPosition + new Vector3(placedObjectTypeSO.Width*5, placedObjectTypeSO.Height*5), Time.deltaTime * 15f);
 
         transform.rotation = Quaternion.Lerp(transform.rotation, gridBuildingSystemVariable.gridBuildingSystem.GetPlacedObjectRotation(), Time.deltaTime * 15f);
     }
