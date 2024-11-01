@@ -24,6 +24,7 @@ public class BuildingGhost : MonoBehaviour
     
 
     private void LateUpdate() {
+        if(gridBuildingSystemVariable.gridBuildingSystem == null || !gridBuildingSystemVariable.gridBuildingSystem.isBuilding) return;
         Vector3 targetPosition = gridBuildingSystemVariable.gridBuildingSystem.GetMouseWorldSnappedPosition();
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
 
@@ -31,6 +32,15 @@ public class BuildingGhost : MonoBehaviour
     }
 
     private void RefreshVisual() {
+        if(gridBuildingSystemVariable.gridBuildingSystem == null || !gridBuildingSystemVariable.gridBuildingSystem.isBuilding) 
+        {
+            if (visual != null) {
+            Destroy(visual.gameObject);
+            visual = null;
+            }
+            return;
+        }   
+       
         if (visual != null) {
             Destroy(visual.gameObject);
             visual = null;

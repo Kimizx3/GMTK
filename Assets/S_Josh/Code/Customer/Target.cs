@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ public class Target : MonoBehaviour
     public float shakeMagnitude = 0.1f; // Magnitude of the shake
     public IntVariable PlayerHealth;
     public int damage = 5; 
-    public float timeToFill = 10f; // Time it takes to fill the progress bar
+    public float timeToFill = 50f; // Time it takes to fill the progress bar
     public Slider progressBar; // Reference to the UI Slider component for the progress bar
     private Coroutine loadProgressCoroutine;
     private bool isLoading = false;
@@ -26,6 +27,9 @@ public class Target : MonoBehaviour
     public VoidEventChannel CustomerLeft; 
 
     public Vector3 originalPosition;
+    public List<Vector3> WalkingPath = new List<Vector3>();
+    public float MoveSpeed = 5f;
+    private int walkingPathIndex = 1;
     private void Start() {
         StartToGetMad = false;
         progressBar.gameObject.SetActive(false);
@@ -41,6 +45,7 @@ public class Target : MonoBehaviour
         {
             Health.SetActive(true);
         }
+        HandleMovement();
     }
     private void StartLoading()
     {
@@ -133,10 +138,38 @@ public class Target : MonoBehaviour
             return false;
 
         Target other = (Target)obj;
+        if(gameObject == null || other.gameObject == null)
+        {
+            return false;
+        }
         return gameObject == other.gameObject;
     }
     public override int GetHashCode()
     {
         return gameObject.GetHashCode();
+    }
+
+    private void HandleMovement()
+    {
+        //asuming the target is already starting at walkingpath[0]
+        
+        if (WalkingPath != null && WalkingPath.Count > 0 && walkingPathIndex < WalkingPath.Count)
+        {
+            Vector3 targetPosition = WalkingPath[walkingPathIndex];
+            if(Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            {
+                Vector3 moveDir = (targetPosition - transform.position).normalized;
+                transform.position += moveDir * MoveSpeed * Time.deltaTime;
+            }
+            else
+            {
+                walkingPathIndex++;
+                if(walkingPathIndex >= WalkingPath.Count)
+                {
+                    WalkingPath = null;
+                    walkingPathIndex = 1;
+                }
+            }
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class CustomerManager : MonoBehaviour
      Target currentTarget;
 
      public VoidEventChannel OnDeathEvent;
+     public GetListVector3EventChannel GetPathEvent;
 
      int currentCustomerCounted = 0;
 
@@ -47,10 +49,25 @@ public class CustomerManager : MonoBehaviour
 
 
     public void StartOrder()
-    {
-        if(!CheckSeatAvailability() || unlockedSeats.baseSpaces.Count == 0 || currentTarget == null || !CheckOrderAvailability() || UnlockedOrderSpaces.baseSpaces.Count == 0 || currentCustomerCounted >= unlockedSeats.baseSpaces.Count)
+    {   
+        if(currentTarget == null)
+        {
+            Debug.Log("No target available");
+            return;
+        }
+        if(!CheckSeatAvailability())
         {
             Debug.Log("No seats available");
+            return;
+        }
+        if(!CheckOrderAvailability())
+        {
+            Debug.Log("No order machine available");
+            return;
+        }
+        if(currentCustomerCounted >= unlockedSeats.baseSpaces.Count)
+        {
+            Debug.Log("There are more customers than seats available");
             return;
         }
         if(AllTargets.Count == 0)
@@ -85,9 +102,12 @@ public class CustomerManager : MonoBehaviour
                         OrderMachine _orderMachine = orderingSpace.GetComponentInChildren<OrderMachine>();
                         _orderMachine.IsAvailable = false;
                         currentTarget.StartToGetMad = true;
-                        MoveToSeat(orderingSpace, currentTarget);
-                        StartCoroutine(LoadProgressBar(_orderMachine.timeToOrderMultiplier * currentTarget.TimeToOrder, _orderMachine.progressBar, _orderMachine, currentTarget));
-                        AllTargets.Remove(currentTarget);
+                        MoveToSeat(orderingSpace, currentTarget, () => 
+                        {
+                            StartCoroutine(LoadProgressBar(_orderMachine.timeToOrderMultiplier * currentTarget.TimeToOrder, _orderMachine.progressBar, _orderMachine, currentTarget));
+                            AllTargets.Remove(currentTarget);
+                        });
+                        
                         return;
                     }
                 }
@@ -113,15 +133,17 @@ public class CustomerManager : MonoBehaviour
                 {
                     if(seatSpace.currentTarget == null)
                     {
-                        seatSpace.currentTarget = CurrentOrderTarget;
-                        CurrentOrderTarget.CurrentSeat = seatSpace;
-                        SeatedTargets.listGameObject.Add(CurrentOrderTarget.gameObject);
-                        MoveToSeat(seatSpace, CurrentOrderTarget);
-                        CurrentOrderTarget.originalPosition = CurrentOrderTarget.transform.localPosition;
-                        UpdateTarget.RaiseEvent();
                         
+                        MoveToSeat(seatSpace, CurrentOrderTarget , () => 
+                        { 
+                            seatSpace.currentTarget = CurrentOrderTarget;
+                            CurrentOrderTarget.CurrentSeat = seatSpace;
+                            SeatedTargets.listGameObject.Add(CurrentOrderTarget.gameObject);
+                            CurrentOrderTarget.originalPosition = CurrentOrderTarget.transform.localPosition;
+                            UpdateTarget.RaiseEvent();   
+                            StartOrder();
+                        });
                         
-                        StartOrder();
                         return;
                     }
                 }
@@ -134,10 +156,23 @@ public class CustomerManager : MonoBehaviour
         
     }
 
-    void MoveToSeat(BaseSpace seatSpace, Target target)
+    void MoveToSeat(BaseSpace seatSpace, Target target, Action OnComplete)
     {
-        target.transform.position = seatSpace.transform.position;
+        StartCoroutine(MoveToSeatCoroutine(seatSpace, target, OnComplete));
+    }
+
+
+    IEnumerator MoveToSeatCoroutine(BaseSpace seatSpace, Target target, Action OnComplete)
+    {
+        target.WalkingPath = GetPathEvent.RaiseEvent(target.transform.position, seatSpace.transform.position);
+        // target.transform.position = seatSpace.transform.position;
        // target.originalPosition = seatSpace.transform.position;
+        while(target.WalkingPath != null)
+        {
+            yield return null;
+        }
+        OnComplete?.Invoke();
+        Debug.Log("Customer has reached the seat");
     }
 
     bool CheckSeatAvailability()

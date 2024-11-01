@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using System.Runtime.CompilerServices;
 
 public class GridBuildingSystem : MonoBehaviour
 {
@@ -9,15 +10,12 @@ public class GridBuildingSystem : MonoBehaviour
     public GridBuildingSystemVariable gridBuildingSystemVariable;
     [SerializeField]
     List<PlacedObjectTypeSO> testTransformList;
-    private Grid<Building> grid;
+    public Grid<PathNode> grid;
     private PlacedObjectTypeSO.Dir dir = PlacedObjectTypeSO.Dir.Up;
     public VoidEventChannel RefreshVisualEvent;
     private Vector2Int currentMouseXY = new Vector2Int(0, 0);
+    public bool isBuilding = false;
     private void Awake() {
-        int gridWidth = 10;
-        int gridHeight = 10;
-        float cellSize = 10f;
-        grid = new Grid<Building>(gridWidth, gridHeight, cellSize, Vector3.zero, (Grid<Building> g, int x, int y) => new Building(g, x, y));
         testTransform = testTransformList[0];
         gridBuildingSystemVariable.gridBuildingSystem = this;
     }
@@ -26,42 +24,42 @@ public class GridBuildingSystem : MonoBehaviour
     }
 
 
-    public class Building
-    {
-        private Grid<Building> grid;
-        private int x;
-        private int y;
-        private PlacedObject transform;
-        public Building(Grid<Building> grid, int x, int y)
-        {
-            this.grid = grid;
-            this.x = x;
-            this.y = y;
-        }
-        public void SetTransform(PlacedObject transform)
-        {
-            this.transform = transform;
-            grid.TriggerGridObjectChanged(x, y);
-        }
-        public void ClearTransform()
-        {
-            transform = null;
-            grid.TriggerGridObjectChanged(x, y);
-        }
-        public PlacedObject GetPlacedObject()
-        {
-            return transform;
-        }
+    // public class Building
+    // {
+    //     private Grid<Building> grid;
+    //     private int x;
+    //     private int y;
+    //     private PlacedObject transform;
+    //     public Building(Grid<Building> grid, int x, int y)
+    //     {
+    //         this.grid = grid;
+    //         this.x = x;
+    //         this.y = y;
+    //     }
+    //     public void SetTransform(PlacedObject transform)
+    //     {
+    //         this.transform = transform;
+    //         grid.TriggerGridObjectChanged(x, y);
+    //     }
+    //     public void ClearTransform()
+    //     {
+    //         transform = null;
+    //         grid.TriggerGridObjectChanged(x, y);
+    //     }
+    //     public PlacedObject GetPlacedObject()
+    //     {
+    //         return transform;
+    //     }
 
-        public bool CanBuild()
-        {
-            return transform == null;
-        }
-        public override string ToString()
-        {
-            return x + ", " + y + "\n" + transform;
-        }
-    }
+    //     public bool CanBuild()
+    //     {
+    //         return transform == null;
+    //     }
+    //     public override string ToString()
+    //     {
+    //         return x + ", " + y + "\n" + transform;
+    //     }
+    // }
 
     private void Update()
     {
@@ -70,11 +68,24 @@ public class GridBuildingSystem : MonoBehaviour
             currentMouseXY = GetGridPosition(UtilsClass.GetMouseWorldPosition());
             RefreshVisualEvent.RaiseEvent();
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if(isBuilding)
+            {
+                isBuilding = false;
+            }
+            else
+            {
+                isBuilding = true;
+            }
+        }
+        if(isBuilding)
+        {
+            if (Input.GetMouseButtonDown(0))
         {
             grid.GetXY(UtilsClass.GetMouseWorldPosition(), out int x, out int y);
             List<Vector2Int> gridPositionList = testTransform.GetGridPositionList(new Vector2Int(x, y), dir);
-            Building building = grid.GetValue(x, y);
+            PathNode building = grid.GetValue(x, y);
             bool _canBuild = true;
             foreach(Vector2Int gridPosition in gridPositionList)
             {
@@ -96,6 +107,7 @@ public class GridBuildingSystem : MonoBehaviour
                 {
                     // if(grid.GetValue(gridPosition.x, gridPosition.y) != null) 
                     grid.GetValue(gridPosition.x, gridPosition.y).SetTransform(placedObject);
+                    grid.GetValue(gridPosition.x, gridPosition.y).isWalkable = false;
                 }
             }
             else
@@ -105,7 +117,7 @@ public class GridBuildingSystem : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-            Building building = grid.GetValue(UtilsClass.GetMouseWorldPosition());
+            PathNode building = grid.GetValue(UtilsClass.GetMouseWorldPosition());
             PlacedObject placedObject = building.GetPlacedObject();
             if(placedObject != null)
             {
@@ -131,6 +143,8 @@ public class GridBuildingSystem : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha3)) testTransform = testTransformList[2]; RefreshVisualEvent.RaiseEvent();
         if(Input.GetKeyDown(KeyCode.Alpha4)) testTransform = testTransformList[3]; RefreshVisualEvent.RaiseEvent();
         if(Input.GetKeyDown(KeyCode.Alpha5)) testTransform = testTransformList[4]; RefreshVisualEvent.RaiseEvent();
+        
+        }
         
         
     }

@@ -52,6 +52,10 @@ public abstract class BaseSpace : MonoBehaviour
             return false;
 
         BaseSpace other = (BaseSpace)obj;
+        if(gameObject == null || other.gameObject == null)
+        {
+            return false;
+        }
         return gameObject == other.gameObject;
     }
     public override int GetHashCode()
