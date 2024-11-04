@@ -5,7 +5,6 @@ using UnityEngine;
 public class OrderingSpace : BaseSpace
 {
     public OrderMachine orderMachine;
-    public UnlockSeatEvent unlockSeatEvent;
     public VoidEventChannel startOrderEvent;
     public Target CurrentTarget;
     private void Start() {
@@ -32,7 +31,6 @@ public class OrderingSpace : BaseSpace
         //Debug.Log("Ordering bought and should appear only once");
         orderMachine.IsAvailable = true;
         orderMachine.gameObject.SetActive(true);
-        unlockSeatEvent.RaiseEvent(this);
         startOrderEvent.RaiseEvent();
     }
 }

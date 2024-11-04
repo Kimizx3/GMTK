@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretManager : MonoBehaviour
+public class TurretManager : SpaceManager
 {
-    public List<Turret> turrets = new List<Turret>();
     public ListGameObjectVariable targets;
     public VoidEventChannel UpdateTurretsTargets;
 
@@ -17,11 +16,11 @@ public class TurretManager : MonoBehaviour
     }
     public void AddTurret(Turret turret) // needs work
     {
-        turrets.Add(turret);
+        unlockedSeats.baseSpaces.Add(turret);
     }
     public void RemoveTurret(Turret turret)
     {
-        turrets.Remove(turret);
+        unlockedSeats.baseSpaces.Remove(turret);
     }
 
     //Once customer reaches seat, the turrect will fire
@@ -29,14 +28,14 @@ public class TurretManager : MonoBehaviour
     {
         if (targets.listGameObject.Count == 0)
         {
-            foreach (Turret turret in turrets)
+            foreach (Turret turret in unlockedSeats.baseSpaces)
             {
                 turret.CurrentTarget.Clear();
             }
             return;
         }
-        //only picking one as the current target
-        foreach (Turret turret in turrets)
+        //for each turret set the target's to the max of this turret's target count
+        foreach (Turret turret in unlockedSeats.baseSpaces)
         {
             turret.CurrentTarget.Clear();
             //Debug.Log("Turret Target Count: " + turret.CurrentTarget.Count);
@@ -54,4 +53,19 @@ public class TurretManager : MonoBehaviour
         }
     }
 
+    public override void UnlockSeat(BaseSpace seat)
+    {
+
+        
+        if(seat is Turret)
+        {
+            unlockedSeats.baseSpaces.Add(seat);
+        }
+        else
+        {
+            Debug.Log("Seat is not a Turret");
+        }
+       
+
+    }
 }

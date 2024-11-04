@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 // Keep track of the seating in the restaurant, includes locked and unlocked seats, and includes the available seats
-public class SeatingManager : MonoBehaviour
+public abstract class SpaceManager : MonoBehaviour
 {
     public ListBaseSeatVariable unlockedSeats;
     public UnlockSeatEvent unlockSeatEvent;
@@ -20,16 +20,6 @@ public class SeatingManager : MonoBehaviour
 
     
 
-    void UnlockSeat(BaseSpace seat)
-    {
-        if(seat is SeatSpace)
-        {
-            unlockedSeats.baseSpaces.Add(seat);
-        }
-        else
-        {
-            Debug.Log("Seat is not a SeatSpace");
-        }
-       
-    }
+    public abstract void UnlockSeat(BaseSpace seat);
+    
 }

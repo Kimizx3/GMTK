@@ -1,23 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class OrderManager : SpaceManager
+public class SeatManager : SpaceManager
 {
     public override void UnlockSeat(BaseSpace seat)
     {
-        if(seat is OrderingSpace)
+        
+        if(seat is SeatSpace)
         {
             unlockedSeats.baseSpaces.Add(seat);
         }
         else
         {
-            Debug.Log("Seat is not a Ordering Space");
+            Debug.Log("Seat is not a SeatSpace");
         }
        
+    
     }
-
-
-
 }

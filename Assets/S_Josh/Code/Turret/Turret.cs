@@ -4,9 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Turret : MonoBehaviour
+public class Turret : BaseSpace
 {
-
     public int Damage;
     public float AttackRate;
     public Slider progressBar;
@@ -113,4 +112,8 @@ public class Turret : MonoBehaviour
         // Attack logic here
     }
 
+    protected override void ShowContent()
+    {
+        Debug.Log("Turret");
+    }
 }

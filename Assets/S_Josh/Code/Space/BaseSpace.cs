@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class BaseSpace : MonoBehaviour
 {
     public IntVariable TotalMoney;
+    protected UnlockSeatEvent UnlockSeatEvent;
     public bool IsUnlocked = false;
     public int Cost = 20;
 
@@ -31,7 +32,15 @@ public abstract class BaseSpace : MonoBehaviour
         //sDebug.Log("Space is unlocked");
         TotalMoney.Value -= Cost;
         IsUnlocked = true;
-       
+        if(UnlockSeatEvent != null)
+        {
+            UnlockSeatEvent.RaiseEvent(this);
+        }
+        else
+        {
+            Debug.LogWarning("UnlockSeatEvent is null");
+        }
+        
     }
 
     // This method will be overridden by subclasses to show specific content
