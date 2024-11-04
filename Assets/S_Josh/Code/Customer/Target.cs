@@ -25,8 +25,6 @@ public class Target : MonoBehaviour
     public GameObject Health;
 
     public VoidEventChannel CustomerLeft; 
-
-    public Vector3 originalPosition;
     public List<Vector3> WalkingPath = new List<Vector3>();
     public float MoveSpeed = 5f;
     private int walkingPathIndex = 1;
@@ -82,7 +80,7 @@ public class Target : MonoBehaviour
     private IEnumerator Shake()
     {
         
-
+        Vector3 startPosition = transform.localPosition;
         float elapsed = 0.0f;
 
         while (elapsed < shakeDuration)
@@ -90,14 +88,14 @@ public class Target : MonoBehaviour
             float x = Random.Range(-1f, 1f) * shakeMagnitude;
             float y = Random.Range(-1f, 1f) * shakeMagnitude;
 
-            transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
+            transform.localPosition = new Vector3(transform.localPosition.x + x, transform.localPosition.y + y, startPosition.z);
 
             elapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        transform.localPosition = originalPosition; // Reset to the original position
+        transform.localPosition = startPosition; // Reset to the original position
     }
 
     private IEnumerator LoadProgressBar()

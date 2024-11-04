@@ -54,7 +54,7 @@ public class CustomerManager : MonoBehaviour
         Debug.Log("Starting order");
         if(CheckSeatAvailability() && CheckOrderAvailability() && currentCustomerCounted <= unlockedSeats.baseSpaces.Count)
         {
-           if(currentCustomerCounted >= AllTargets.Count)
+           if(currentCustomerIndex >= AllTargets.Count)
             {
                 Debug.Log("All customers have been seated");
                 return;
@@ -75,7 +75,7 @@ public class CustomerManager : MonoBehaviour
 
     public void AssignOrderMachine(Target currentTarget)
     {
-        
+          
         foreach(BaseSpace baseSpace in UnlockedOrderSpaces.baseSpaces)
         {
             if(baseSpace is OrderingSpace)
