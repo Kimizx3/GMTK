@@ -52,7 +52,7 @@ public class CustomerManager : MonoBehaviour
     public void StartOrder()
     {   
         Debug.Log("Starting order");
-        if(CheckSeatAvailability() && CheckOrderAvailability() && currentCustomerCounted <= AllTargets.Count)
+        if(CheckSeatAvailability() && CheckOrderAvailability() && currentCustomerCounted <= unlockedSeats.baseSpaces.Count)
         {
            if(currentCustomerCounted >= AllTargets.Count)
             {
