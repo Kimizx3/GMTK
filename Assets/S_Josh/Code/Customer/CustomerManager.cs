@@ -20,6 +20,7 @@ public class CustomerManager : MonoBehaviour
      public GetListVector3EventChannel GetPathEvent;
 
      int currentCustomerCounted = 0;
+     int currentCustomerIndex = 0;
 
     private void OnEnable() {
         SeatedTargets.listGameObject.Clear();
@@ -38,7 +39,7 @@ public class CustomerManager : MonoBehaviour
             //Debug.Log("No targets available");
             return;
         }
-        currentTarget = AllTargets[0].GetComponent<Target>();
+       
         StartOrder();
     }
     public void OnTargetDeath()
@@ -50,43 +51,29 @@ public class CustomerManager : MonoBehaviour
 
     public void StartOrder()
     {   
-        if(currentTarget == null)
+        Debug.Log("Starting order");
+        if(CheckSeatAvailability() && CheckOrderAvailability() && currentCustomerCounted <= AllTargets.Count)
         {
-            Debug.Log("No target available");
-            return;
-        }
-        if(!CheckSeatAvailability())
-        {
-            Debug.Log("No seats available");
-            return;
-        }
-        if(!CheckOrderAvailability())
-        {
-            Debug.Log("No order machine available");
-            return;
-        }
-        if(currentCustomerCounted >= unlockedSeats.baseSpaces.Count)
-        {
-            Debug.Log("There are more customers than seats available");
-            return;
-        }
-        if(AllTargets.Count == 0)
-        {
-            Debug.Log("Finished all orders");
-            return;
+           if(currentCustomerCounted >= AllTargets.Count)
+            {
+                Debug.Log("All customers have been seated");
+                return;
+            }
+            else
+            {
+                AssignOrderMachine(AllTargets[currentCustomerIndex]);
+                currentCustomerIndex += 1;
+                currentCustomerCounted += 1;
+            }
         }
         
-        FinishOrder();
-        currentCustomerCounted++;
+        
+        
+        
     }
 
 
-    public void FinishOrder()
-    {
-        AssignOrderMachine();
-    }
-
-    public void AssignOrderMachine()
+    public void AssignOrderMachine(Target currentTarget)
     {
         
         foreach(BaseSpace baseSpace in UnlockedOrderSpaces.baseSpaces)
@@ -94,26 +81,21 @@ public class CustomerManager : MonoBehaviour
             if(baseSpace is OrderingSpace)
             {
                 OrderingSpace orderingSpace = (OrderingSpace)baseSpace;
-                if(orderingSpace.IsUnlocked)
+                if(orderingSpace.IsUnlocked && orderingSpace.GetComponentInChildren<OrderMachine>().IsAvailable)
                 {
-                    if(orderingSpace.GetComponentInChildren<OrderMachine>().IsAvailable)
-                    {
-                        currentTarget = AllTargets[0].GetComponent<Target>();
                         OrderMachine _orderMachine = orderingSpace.GetComponentInChildren<OrderMachine>();
                         _orderMachine.IsAvailable = false;
                         currentTarget.StartToGetMad = true;
                         MoveToSeat(orderingSpace, currentTarget, () => 
                         {
                             StartCoroutine(LoadProgressBar(_orderMachine.timeToOrderMultiplier * currentTarget.TimeToOrder, _orderMachine.progressBar, _orderMachine, currentTarget));
-                            AllTargets.Remove(currentTarget);
+                            
                         });
-                        
-                        return;
-                    }
+                        break;
                 }
                 else
                 {
-                    Debug.LogError("Order machine is not unlocked when it is suppose to be unlocked");
+                    Debug.Log("Order machine is not unlocked or not available");
                 }
             }
         }
@@ -133,18 +115,17 @@ public class CustomerManager : MonoBehaviour
                 {
                     if(seatSpace.currentTarget == null)
                     {
-                        
+                        seatSpace.currentTarget = CurrentOrderTarget;
+                        SeatedTargets.listGameObject.Add(CurrentOrderTarget.gameObject);
+                        CurrentOrderTarget.CurrentSeat = seatSpace;
+                        // CurrentOrderTarget.originalPosition = CurrentOrderTarget.transform.localPosition;
                         MoveToSeat(seatSpace, CurrentOrderTarget , () => 
                         { 
-                            seatSpace.currentTarget = CurrentOrderTarget;
-                            CurrentOrderTarget.CurrentSeat = seatSpace;
-                            SeatedTargets.listGameObject.Add(CurrentOrderTarget.gameObject);
-                            CurrentOrderTarget.originalPosition = CurrentOrderTarget.transform.localPosition;
                             UpdateTarget.RaiseEvent();   
                             StartOrder();
                         });
                         
-                        return;
+                        break;
                     }
                 }
                 else

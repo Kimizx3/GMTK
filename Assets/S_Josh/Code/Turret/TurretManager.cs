@@ -24,6 +24,7 @@ public class TurretManager : MonoBehaviour
         turrets.Remove(turret);
     }
 
+    //Once customer reaches seat, the turrect will fire
     void UpdateTarget()
     {
         if (targets.listGameObject.Count == 0)
@@ -34,7 +35,7 @@ public class TurretManager : MonoBehaviour
             }
             return;
         }
-        
+        //only picking one as the current target
         foreach (Turret turret in turrets)
         {
             turret.CurrentTarget.Clear();

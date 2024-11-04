@@ -216,6 +216,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5791363052265822013, guid: c9d7b5e758fd82e44ba673b552cf4282, type: 3}
+      propertyPath: TotalMoney
+      value: 
+      objectReference: {fileID: 11400000, guid: 0236e8cdbd75e0a4398e0c93e03ea62e, type: 2}
+    - target: {fileID: 5791363052265822013, guid: c9d7b5e758fd82e44ba673b552cf4282, type: 3}
+      propertyPath: testTransformList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5791363052265822013, guid: c9d7b5e758fd82e44ba673b552cf4282, type: 3}
+      propertyPath: testTransformList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5628bc2be1d51824088ee7c31f9a2962, type: 2}
+    - target: {fileID: 5791363052265822013, guid: c9d7b5e758fd82e44ba673b552cf4282, type: 3}
+      propertyPath: testTransformList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 06f7bf3417727c54ab362ccfad679d6a, type: 2}
     - target: {fileID: 6832367559105715166, guid: c9d7b5e758fd82e44ba673b552cf4282, type: 3}
       propertyPath: m_Name
       value: GridBuilding

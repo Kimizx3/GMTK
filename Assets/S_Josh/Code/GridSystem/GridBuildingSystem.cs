@@ -167,9 +167,9 @@ public class GridBuildingSystem : MonoBehaviour
 
         if (testTransform != null) {
              Vector2Int rotationOffset = testTransform.GetRotationOffset(dir);
-                print(rotationOffset);
+              //  print(rotationOffset);
                 Vector3 placedBuildingPosition = grid.GetWorldPosition(x,y) + new Vector3(rotationOffset.x, rotationOffset.y, 0) * grid.GetCellSize();
-                print(placedBuildingPosition);
+              //  print(placedBuildingPosition);
             return placedBuildingPosition;
         } else {
             print("this is not working'");
